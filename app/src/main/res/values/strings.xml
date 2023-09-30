@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">KPC</string>
+    <string name="label_welcome">Добро пожаловать в\n<b>%s</b></string>
+    <string name="description_welcome">Lorem ipsum dolor sit amet consectetur. Vulputate netus dolor nisl et. Sed porttitor ac nunc tristique auctor mauris eu feugiat. </string>
+
+    <string name="reg">Зарегистрироваться</string>
+
+    <string name="reg_label">Регистрация</string>
+    <string name="reg_email">Введите адрес эл. почты</string>
+    <string name="reg_password">Придумайте пароль</string>
+    <string name="reg_accept_password">Повторите пароль</string>
+    <string name="reg_email_placeholder">Email</string>
+    <string name="reg_password_placeholder">Пароль</string>
+    <string name="reg_social">Войти через соц. сети?</string>
+
+    <string name="login_label">Авторизация</string>
+    <string name="login">Войти</string>
+    <string name="login_password_label">Введите пароль</string>
+
+    <string name="menu_calendar">Календарь</string>
+    <string name="menu_health">Здоровье</string>
+    <string name="menu_main">Главная</string>
+    <string name="menu_inspect">Осмотр</string>
+    <string name="menu_animals">Животные</string>
+
+    <string name="search">Поиск...</string>
+
+    <string name="references">Справочники: </string>
+    <string name="profile">Личный Кабинет</string>
+    <string name="edit_data">Редактировать данные</string>
+    <string name="save_edit">Сохранить изменения</string>
+    <string name="deauth">Деавторизоваться</string>
+    <string name="fio">ФИО</string>
+    <string name="birthday">Дата Рождения</string>
+    <string name="cource">Курс</string>
+    <string name="phone">Телефон</string>
+    <string name="email">Почта</string>
+    
+    <string name="calendar_inspections">Смотреть список плановых осмотров</string>
+</resources>
