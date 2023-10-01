@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.tools.ActivityTools;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -19,6 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
         ImageView buttonClose = (ImageView) findViewById(R.id.close_btn3);
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            ActivityTools.setupBackLastFragment(intent, R.id.main);
             startActivity(intent);
         });
 

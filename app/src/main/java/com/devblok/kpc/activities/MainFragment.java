@@ -32,7 +32,7 @@ import okhttp3.Response;
 
 public class MainFragment extends Fragment {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     public MainFragment() {}
 

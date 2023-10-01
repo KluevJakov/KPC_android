@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.tools.ActivityTools;
 
 public class ReadActivity extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class ReadActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         backBtn.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            ActivityTools.setupBackLastFragment(intent, R.id.main);
             startActivity(intent);
         });
 

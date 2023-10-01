@@ -26,9 +26,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         ActivityTools.fullscreenMode(getWindow());
         setContentView(R.layout.activity_main);
 
+        Bundle bundle = getIntent().getExtras();
+        int lastFragment = bundle.getInt("lastFragment");
+
         bottomNavigationView = findViewById(R.id.menu);
         bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.main);
+        bottomNavigationView.setSelectedItemId(lastFragment);
     }
 
     @Override

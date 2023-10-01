@@ -41,4 +41,10 @@
     <string name="fontSize">Размер шрифта</string>
     <string name="book_name">Название справочника</string>
     <string name="book_author">Автор справочника</string>
+    <string name="all_info_animal">Вся информация о животном</string>
+    <string name="animal_name">Кличка животного</string>
+    <string name="about_animal">О животном</string>
+    <string name="watch_all_sicks">Смотреть список всех болезней</string>
+    <string name="watch_all_inspects">Смотреть список осмотров</string>
+    <string name="recent_events">Последние события</string>
 </resources>

@@ -27,6 +27,7 @@ public class LogActivity extends AppCompatActivity {
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            ActivityTools.setupBackLastFragment(intent, R.id.main);
             startActivity(intent);
         });
     }
