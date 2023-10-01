@@ -35,6 +35,10 @@
     <string name="cource">Курс</string>
     <string name="phone">Телефон</string>
     <string name="email">Почта</string>
-    
+
     <string name="calendar_inspections">Смотреть список плановых осмотров</string>
+    <string name="read">Читать</string>
+    <string name="fontSize">Размер шрифта</string>
+    <string name="book_name">Название справочника</string>
+    <string name="book_author">Автор справочника</string>
 </resources>

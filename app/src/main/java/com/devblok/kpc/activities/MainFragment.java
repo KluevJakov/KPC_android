@@ -1,20 +1,34 @@
 package com.devblok.kpc.activities;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.adapter.BookAdapter;
+import com.devblok.kpc.entity.Book;
+import com.devblok.kpc.tools.WebConstants;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainFragment extends Fragment {
 
@@ -48,8 +62,42 @@ public class MainFragment extends Fragment {
             startActivity(intent);
         });
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+        try {
+            run();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+        }
         return view;
+    }
+
+    protected void run() throws Exception {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request1 = new Request.Builder().url(WebConstants.backendUrl + "/books").build();
+
+        client.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String myResponse = response.body().string();
+                getActivity().runOnUiThread(() -> {
+                    try {
+                        Gson gson = new Gson();
+                        ArrayList<Book> books = gson.fromJson(myResponse, new TypeToken<List<Book>>() {}.getType());
+                        BookAdapter bookAdapter = new BookAdapter(books, getContext());
+                        recyclerView.setAdapter(bookAdapter);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 }

@@ -5,4 +5,6 @@
     <color name="label_blue">#2A85A5</color>
     <color name="label_gray">#8BADB9</color>
     <color name="transparent">#00000000</color>
+    <color name="dark_gray">#575757</color>
+    <color name="light_gray">#9D9D9D</color>
 </resources>
