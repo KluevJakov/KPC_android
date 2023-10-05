@@ -1,5 +1,6 @@
 package com.devblok.kpc.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         setContentView(R.layout.activity_main);
 
         Bundle bundle = getIntent().getExtras();
-        int lastFragment = bundle.getInt("lastFragment");
+        Integer lastFragment = bundle.getInt("lastFragment");
 
         bottomNavigationView = findViewById(R.id.menu);
         bottomNavigationView.setOnItemSelectedListener(this);

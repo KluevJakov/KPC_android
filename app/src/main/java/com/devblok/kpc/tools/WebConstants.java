@@ -7,4 +7,6 @@ public class WebConstants {
     public static final String backendUrlBase = "http://10.0.2.2:8080";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
+    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_ID_KEY = "USER_ID_KEY";
 }

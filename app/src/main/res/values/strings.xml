@@ -47,4 +47,6 @@
     <string name="watch_all_sicks">Смотреть список всех болезней</string>
     <string name="watch_all_inspects">Смотреть список осмотров</string>
     <string name="recent_events">Последние события</string>
+    <string name="add_animal">Добавить животное</string>
+    <string name="plan_inspect">Запланировать осмотр</string>
 </resources>
