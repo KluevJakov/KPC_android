@@ -9,32 +9,32 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/animal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="64dp"
             android:background="@drawable/round_outline"
             android:text="@string/menu_animals"
             android:textColor="@color/dark_gray"
             android:textSize="24sp"
-            app:layout_constraintStart_toEndOf="@+id/monthYear"
+            app:layout_constraintStart_toEndOf="@+id/date"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/round_outline"
             android:text="@string/watch_sick_history"
             android:textColor="@color/label_blue"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/monthYear"
+            app:layout_constraintStart_toEndOf="@+id/date"
             app:layout_constraintTop_toBottomOf="@+id/animal" />
 
         <ImageView
@@ -42,7 +42,7 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/arrow_up"
             app:layout_constraintStart_toEndOf="@+id/info"
             app:layout_constraintTop_toBottomOf="@+id/animal" />
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@string/sick"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sick" />
@@ -72,8 +72,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@string/sick"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/monthYear" />
 
@@ -82,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@string/sick"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date" />

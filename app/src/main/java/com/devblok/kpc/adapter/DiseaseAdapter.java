@@ -21,7 +21,13 @@ import com.devblok.kpc.tools.DownloadImageTask;
 import com.devblok.kpc.tools.WebConstants;
 
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.ViewHolder> {
     private List<Disease> diseases;
@@ -35,11 +41,11 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull DiseaseAdapter.ViewHolder holder, int position) {
-        holder.getSick().setText(diseases.get(position).getSick().getName());
-        holder.getMonthYear().setText(getMonth(diseases.get(position).getDateStart().getMonth()) + " " + diseases.get(position).getDateStart().getYear());
-        holder.getDate().setText(diseases.get(position).getDateStart().getDate());
-        holder.getDay().setText(getDay(diseases.get(position).getDateStart().getDay()));
-        holder.getAnimal().setText(diseases.get(position).getAnimal().getNickOrNumber());
+        holder.getSick().setText(diseases.get(position).getSick().getName().toUpperCase());
+        holder.getMonthYear().setText(getMonth(diseases.get(position).getDateStart()) + " " + (diseases.get(position).getDateStart().getYear()+1900));
+        holder.getDate().setText(String.valueOf(diseases.get(position).getDateStart().getDate()).toUpperCase());
+        holder.getDay().setText(getDay(diseases.get(position).getDateStart()).toUpperCase());
+        holder.getAnimal().setText(diseases.get(position).getAnimal().getNickOrNumber().toUpperCase());
 
         holder.getInfo().setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), SickActivity.class);
@@ -104,12 +110,12 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.ViewHold
         }
     }
 
-    public String getMonth(int month) {
-        return new DateFormatSymbols().getMonths()[month-1];
+    public String getMonth(Date date) {
+        return new SimpleDateFormat("MMMM", new Locale("ru")).format(date).toUpperCase();
     }
 
-    public String getDay(int week) {
-        return new DateFormatSymbols().getWeekdays()[week];
+    public String getDay(Date date) {
+        return new SimpleDateFormat("EEE", new Locale("ru")).format(date).toUpperCase();
     }
 
 }
