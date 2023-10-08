@@ -50,4 +50,7 @@
     <string name="add_animal">Добавить животное</string>
     <string name="plan_inspect">Запланировать осмотр</string>
     <string name="add_sick">Добавить болезнь</string>
+    <string name="remove">Удалить</string>
+    <string name="watch_sick_history">Смотреть историю болезни</string>
+    <string name="sick">Болезнь</string>
 </resources>

@@ -1,17 +1,35 @@
 package com.devblok.kpc.activities;
 
+import static com.devblok.kpc.tools.WebConstants.SHARED_PREFS;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.entity.User;
 import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.DownloadImageTask;
 import com.devblok.kpc.tools.WebConstants;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.UUID;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AnimalActivity extends AppCompatActivity {
 
@@ -46,8 +64,24 @@ public class AnimalActivity extends AppCompatActivity {
         });
 
         Button addSickBtn = findViewById(R.id.saveBtn3);
+        addSickBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), SickActivity.class);
+            Bundle b = new Bundle();
+            b.putString("animalId", (String) bundle.get("id"));
+            intent.putExtras(b);
+            startActivity(intent);
+        });
 
         Button planInspectBtn = findViewById(R.id.saveBtn4);
+
+        Button removeBtn = findViewById(R.id.saveBtn5);
+        removeBtn.setOnClickListener(view -> {
+            try {
+                run(bundle.getString("id"));
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -71,5 +105,37 @@ public class AnimalActivity extends AppCompatActivity {
         stringBuilder.append("Название подразделения фермы (отделения) или ФИО владельца животного - ");
         stringBuilder.append(bundle.getString("owner"));
         return stringBuilder.toString();
+    }
+
+    protected void run(String uuid) throws Exception {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request1 = new Request.Builder()
+                .url(WebConstants.backendUrl + "/animal?animalId="+uuid)
+                .delete()
+                .build();
+
+        client.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String myResponse = response.body().string();
+                runOnUiThread(() -> {
+                    try {
+                        Toast.makeText(getApplicationContext(), "Животное удалено", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 }

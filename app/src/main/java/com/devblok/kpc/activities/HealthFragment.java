@@ -9,9 +9,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.adapter.AnimalAdapter;
+import com.devblok.kpc.adapter.DiseaseAdapter;
 import com.devblok.kpc.entity.Animal;
+import com.devblok.kpc.entity.Disease;
 import com.devblok.kpc.entity.Sick;
 import com.devblok.kpc.tools.WebConstants;
 import com.google.gson.Gson;
@@ -34,6 +39,7 @@ import okhttp3.Response;
 public class HealthFragment extends Fragment {
 
     Spinner spinner, spinner2;
+    private RecyclerView recyclerView;
 
     public HealthFragment() {
 
@@ -50,6 +56,8 @@ public class HealthFragment extends Fragment {
 
         spinner = view.findViewById(R.id.spinner);
         spinner2 = view.findViewById(R.id.spinner2);
+        recyclerView = view.findViewById(R.id.recyclerDiseases);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         try {
             run();
@@ -65,6 +73,8 @@ public class HealthFragment extends Fragment {
 
         Request request1 = new Request.Builder().url(WebConstants.backendUrl + "/sicks").build();
         Request request2 = new Request.Builder().url(WebConstants.backendUrl + "/animals").build();
+        Request request3 = new Request.Builder().url(WebConstants.backendUrl + "/diseases").build();
+
 
         client.newCall(request1).enqueue(new Callback() {
             @Override
@@ -106,6 +116,27 @@ public class HealthFragment extends Fragment {
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, animalsStr.toArray(new String[0]));
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner2.setAdapter(adapter);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        client.newCall(request3).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String myResponse = response.body().string();
+                getActivity().runOnUiThread(() -> {
+                    try {
+                        Gson gson = new Gson();
+                        ArrayList<Disease> diseases = gson.fromJson(myResponse, new TypeToken<List<Disease>>() {}.getType());
+                        DiseaseAdapter diseaseAdapter = new DiseaseAdapter(diseases, getContext());
+                        recyclerView.setAdapter(diseaseAdapter);
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
                     }

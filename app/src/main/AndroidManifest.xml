@@ -18,6 +18,9 @@
         android:theme="@style/Theme.KPC"
         tools:targetApi="31">
         <activity
+            android:name=".activities.SickActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AnimalEditActivity"
             android:exported="false" />
         <activity
