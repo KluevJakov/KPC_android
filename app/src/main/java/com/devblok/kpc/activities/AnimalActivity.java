@@ -2,6 +2,7 @@ package com.devblok.kpc.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,20 @@ public class AnimalActivity extends AppCompatActivity {
             ActivityTools.setupBackLastFragment(intent, R.id.animals);
             startActivity(intent);
         });
+
+        Button editBtn = findViewById(R.id.saveBtn2);
+        editBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), AnimalEditActivity.class);
+            Bundle b = new Bundle();
+            b.putString("id", (String) bundle.get("id"));
+            intent.putExtras(b);
+            startActivity(intent);
+        });
+
+        Button addSickBtn = findViewById(R.id.saveBtn3);
+
+        Button planInspectBtn = findViewById(R.id.saveBtn4);
+
     }
 
     protected String generateInfo(Bundle bundle) {

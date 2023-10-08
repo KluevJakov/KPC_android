@@ -92,11 +92,11 @@
                 android:id="@+id/imageView17"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:src="@drawable/arrow_up"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                app:layout_constraintTop_toBottomOf="@+id/saveBtn4" />
 
             <ImageView
                 android:id="@+id/imageView18"
@@ -113,13 +113,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/round_outline"
                 android:text="@string/watch_all_sicks"
                 android:textColor="@color/label_blue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                app:layout_constraintTop_toBottomOf="@+id/saveBtn4" />
 
             <TextView
                 android:id="@+id/info2"
@@ -145,6 +145,60 @@
                 android:textColor="@color/light_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+            <Button
+                android:id="@+id/saveBtn2"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/button"
+                android:fontFamily="@font/noto"
+                android:text="@string/edit_data"
+                android:textColor="@color/label_blue"
+                android:textColorHighlight="@color/label_blue"
+                android:textColorLink="@color/label_blue"
+                app:layout_constraintBottom_toTopOf="@+id/button4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+            <Button
+                android:id="@+id/saveBtn3"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/button"
+                android:fontFamily="@font/noto"
+                android:text="@string/add_sick"
+                android:textColor="@color/label_blue"
+                android:textColorHighlight="@color/label_blue"
+                android:textColorLink="@color/label_blue"
+                app:layout_constraintBottom_toTopOf="@+id/button4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/saveBtn2" />
+
+            <Button
+                android:id="@+id/saveBtn4"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/button"
+                android:fontFamily="@font/noto"
+                android:text="@string/plan_inspect"
+                android:textColor="@color/label_blue"
+                android:textColorHighlight="@color/label_blue"
+                android:textColorLink="@color/label_blue"
+                app:layout_constraintBottom_toTopOf="@+id/button4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/saveBtn3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

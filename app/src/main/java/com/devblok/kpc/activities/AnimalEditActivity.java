@@ -9,21 +9,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.devblok.kpc.R;
-import com.devblok.kpc.adapter.AnimalAdapter;
 import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.entity.User;
 import com.devblok.kpc.tools.ActivityTools;
@@ -34,13 +29,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import okhttp3.Call;
@@ -52,54 +42,43 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ProfileActivity extends AppCompatActivity {
+public class AnimalEditActivity extends AppCompatActivity {
 
-    protected EditText fioField;
-    protected DatePicker birthdayField;
-    protected EditText courseField;
-    protected EditText phoneField;
-    protected EditText emailField;
-    protected EditText passwordField;
-    protected ImageView imageView6;
-    protected User currentUser;
+    protected ImageView imageView;
+    protected Animal currentAnimal;
     int SELECT_PICTURE = 200;
+    protected UUID currentAnimalUUID;
+    protected EditText typeField;
+    protected EditText sexField;
+    protected EditText ageField;
+    protected EditText nameField;
+    protected EditText breedField;
+    protected EditText ownerField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_animal_edit);
 
-        fioField = findViewById(R.id.fioField);
-        birthdayField = findViewById(R.id.birthdayField);
-        courseField = findViewById(R.id.courseField);
-        phoneField = findViewById(R.id.phoneField);
-        emailField = findViewById(R.id.emailField);
-        passwordField = findViewById(R.id.passwordField);
-        imageView6 = findViewById(R.id.imageView6);
+        imageView = findViewById(R.id.imageView15);
+        typeField = findViewById(R.id.typeField);
+        sexField = findViewById(R.id.sexField);
+        ageField = findViewById(R.id.ageField);
+        nameField = findViewById(R.id.nameField);
+        breedField = findViewById(R.id.breedField);
+        ownerField = findViewById(R.id.ownerField);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        ImageView buttonClose = findViewById(R.id.close_btn3);
+        ImageView buttonClose = findViewById(R.id.close_btn6);
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            ActivityTools.setupBackLastFragment(intent, R.id.main);
+            ActivityTools.setupBackLastFragment(intent, R.id.animals);
             startActivity(intent);
         });
 
-        Button buttonDeauth = findViewById(R.id.button4);
-        buttonDeauth.setOnClickListener(view -> {
-
-            SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.clear();
-            editor.apply();
-
-            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-            startActivity(intent);
-        });
-
-        Button buttonEdit = findViewById(R.id.button5);
-        buttonEdit.setOnClickListener(view -> {
+        Button saveBtn = findViewById(R.id.saveBtn);
+        saveBtn.setOnClickListener(view -> {
             try {
                 save();
             } catch (Exception e) {
@@ -107,34 +86,30 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        Button buttonAddAnimal = findViewById(R.id.button3);
-        buttonAddAnimal.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), AnimalEditActivity.class);
-            startActivity(intent);
-        });
-
-        ImageView imageView6 = findViewById(R.id.imageView6);
-        imageView6.setOnClickListener(view -> {
+        imageView.setOnClickListener(view -> {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, SELECT_PICTURE);
         });
 
-        try {
-            run();
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            currentAnimalUUID = UUID.fromString((String) bundle.get("id"));
+            try {
+                run();
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            currentAnimal = new Animal();
         }
     }
 
     protected void run() throws Exception {
         OkHttpClient client = new OkHttpClient();
 
-        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        UUID uuid = UUID.fromString(sharedpreferences.getString("USER_ID_KEY", null));
-
         Request request1 = new Request.Builder()
-                .url(WebConstants.backendUrl + "/user?userId="+uuid.toString())
+                .url(WebConstants.backendUrl + "/animal?animalId=" + currentAnimalUUID.toString())
                 .get()
                 .build();
 
@@ -150,17 +125,16 @@ public class ProfileActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
-                        currentUser = gson.fromJson(myResponse, new TypeToken<User>() {}.getType());
+                        currentAnimal = gson.fromJson(myResponse, new TypeToken<Animal>() {}.getType());
 
-                        fioField.setText(currentUser.getFio());
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(currentUser.getBirthday());
-                        birthdayField.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
-                        //courseField.setText(currentUser.get());
-                        phoneField.setText(currentUser.getPhone());
-                        emailField.setText(currentUser.getEmail());
-                        passwordField.setText(currentUser.getPassword());
-                        new DownloadImageTask(imageView6).execute(WebConstants.backendUrlBase+currentUser.getAvatar());
+                        typeField.setText(currentAnimal.getType());
+                        sexField.setText(currentAnimal.getSex());
+                        ageField.setText(currentAnimal.getAge());
+                        nameField.setText(currentAnimal.getNickOrNumber());
+                        breedField.setText(currentAnimal.getBreed());
+                        ownerField.setText(currentAnimal.getOwner());
+
+                        new DownloadImageTask(imageView).execute(WebConstants.backendUrlBase + currentAnimal.getAvatar());
 
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
@@ -175,25 +149,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        if (fioField.getText().toString().isEmpty() || phoneField.getText().toString().isEmpty() ||
-            emailField.getText().toString().isEmpty() || passwordField.getText().toString().isEmpty()) {
+        if (typeField.getText().toString().isEmpty() || sexField.getText().toString().isEmpty() ||
+                ageField.getText().toString().isEmpty() || nameField.getText().toString().isEmpty() ||
+                breedField.getText().toString().isEmpty() || ownerField.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Проверьте заполненность всех полей", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        currentUser.setFio(fioField.getText().toString());
-        currentUser.setPhone(phoneField.getText().toString());
-        currentUser.setEmail(emailField.getText().toString());
-        currentUser.setPassword(passwordField.getText().toString());
-        Calendar cal = Calendar.getInstance();
-        cal.set(birthdayField.getYear(), birthdayField.getMonth(), birthdayField.getDayOfMonth());
-        currentUser.setBirthday(cal.getTime());
+        currentAnimal.setType(typeField.getText().toString());
+        currentAnimal.setSex(sexField.getText().toString());
+        currentAnimal.setAge(ageField.getText().toString());
+        currentAnimal.setNickOrNumber(nameField.getText().toString());
+        currentAnimal.setBreed(breedField.getText().toString());
+        currentAnimal.setOwner(ownerField.getText().toString());
 
-        RequestBody formBody = RequestBody.create(MediaType.parse("application/json"),
-                mapper.writeValueAsString(currentUser));
+        RequestBody formBody = RequestBody.create(MediaType.parse("application/json"), mapper.writeValueAsString(currentAnimal));
 
         Request request1 = new Request.Builder()
-                .url(WebConstants.backendUrl + "/user")
+                .url(WebConstants.backendUrl + "/animal")
                 .post(formBody)
                 .build();
 
@@ -222,13 +195,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        currentUser.setAvatar(path);
+        currentAnimal.setAvatar(path);
 
         RequestBody formBody = RequestBody.create(MediaType.parse("application/json"),
-                mapper.writeValueAsString(currentUser));
+                mapper.writeValueAsString(currentAnimal));
 
         Request request1 = new Request.Builder()
-                .url(WebConstants.backendUrl + "/user")
+                .url(WebConstants.backendUrl + "/animal")
                 .post(formBody)
                 .build();
 
@@ -258,7 +231,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (requestCode == SELECT_PICTURE) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri selectedImage = data.getData();
-                imageView6.setImageURI(selectedImage);
+                imageView.setImageURI(selectedImage);
 
                 OkHttpClient client = new OkHttpClient();
                 File file = new File(getPath(data.getData()));
@@ -297,13 +270,12 @@ public class ProfileActivity extends AppCompatActivity {
     public String getPath(Uri uri) {
 
         String path = null;
-        String[] projection = { MediaStore.Files.FileColumns.DATA };
+        String[] projection = {MediaStore.Files.FileColumns.DATA};
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
 
-        if(cursor == null){
+        if (cursor == null) {
             path = uri.getPath();
-        }
-        else{
+        } else {
             cursor.moveToFirst();
             int column_index = cursor.getColumnIndexOrThrow(projection[0]);
             path = cursor.getString(column_index);
@@ -312,5 +284,4 @@ public class ProfileActivity extends AppCompatActivity {
 
         return ((path == null || path.isEmpty()) ? (uri.getPath()) : path);
     }
-
 }
