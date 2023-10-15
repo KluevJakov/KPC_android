@@ -18,10 +18,12 @@ import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.tools.DownloadImageTask;
 import com.devblok.kpc.tools.WebConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder> {
     private List<Animal> animals;
+    private List<Animal> itemsCopy = new ArrayList<>();
     private Context context;
 
     @NonNull
@@ -59,6 +61,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     public AnimalAdapter(List<Animal> animals, Context context) {
         this.animals = animals;
         this.context = context;
+        itemsCopy.addAll(animals);
     }
 
 
@@ -85,6 +88,20 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         public TextView getInfo() {
             return info;
         }
+    }
+
+    public void filter(String text) {
+        animals.clear();
+        if(text.isEmpty()){
+            animals.addAll(itemsCopy);
+        } else{
+            for(Animal item: itemsCopy){
+                if(item.getNickOrNumber().toLowerCase().contains(text.toLowerCase())){
+                    animals.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 }

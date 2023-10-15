@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.devblok.kpc.R;
@@ -74,6 +75,7 @@ public class SickActivity extends AppCompatActivity {
     protected EditText urogenitalSystemResearch;
     protected Spinner sickSpinner;
     /* --------------- */
+    protected TextView titleRead2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +103,12 @@ public class SickActivity extends AppCompatActivity {
         nervousSystemResearch = findViewById(R.id.nervousSystemResearch);
         urogenitalSystemResearch = findViewById(R.id.urogenitalSystemResearch);
         sickSpinner = findViewById(R.id.sickSpinner);
-
+        titleRead2 = findViewById(R.id.titleRead2);
 
         ImageView buttonClose = findViewById(R.id.backBtn2);
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            ActivityTools.setupBackLastFragment(intent, R.id.inspect);
+            ActivityTools.setupBackLastFragment(intent, R.id.health);
             startActivity(intent);
         });
 
@@ -207,7 +209,10 @@ public class SickActivity extends AppCompatActivity {
                         heartSystemResearch.setText(currentDisease.getHeartSystemResearch());
                         nervousSystemResearch.setText(currentDisease.getNervousSystemResearch());
                         urogenitalSystemResearch.setText(currentDisease.getUrogenitalSystemResearch());
-                        //sickSpinner.setSelected();
+
+                        titleRead2.setText(currentDisease.getAnimal().getNickOrNumber());
+
+                        //sickSpinner.setSelected(); TODO: заинитить
 
                         currentAnimalUUID = currentDisease.getAnimal().getId();
                         currentAnimal = currentDisease.getAnimal();

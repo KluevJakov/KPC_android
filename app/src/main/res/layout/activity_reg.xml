@@ -35,6 +35,7 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/button"
         android:fontFamily="@font/noto"
+        app:backgroundTint="@null"
         android:text="@string/reg"
         android:textColor="@color/label_blue"
         android:textColorHighlight="@color/label_blue"

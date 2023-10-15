@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ import okhttp3.Response;
 public class AnimalsFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private SearchView searchView;
 
     public AnimalsFragment() {
     }
@@ -44,6 +46,7 @@ public class AnimalsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_animals, container, false);
         recyclerView = view.findViewById(R.id.recyclerAnimals);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        searchView = view.findViewById(R.id.searchView);
 
         try {
             run();
@@ -73,6 +76,24 @@ public class AnimalsFragment extends Fragment {
                         ArrayList<Animal> animals = gson.fromJson(myResponse, new TypeToken<List<Animal>>() {}.getType());
                         AnimalAdapter animalAdapter = new AnimalAdapter(animals, getContext());
                         recyclerView.setAdapter(animalAdapter);
+
+                        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                            @Override
+                            public boolean onQueryTextSubmit(String s) {
+                                if (recyclerView.getAdapter() != null) {
+                                    ((AnimalAdapter) recyclerView.getAdapter()).filter(s);
+                                }
+                                return true;
+                            }
+
+                            @Override
+                            public boolean onQueryTextChange(String s) {
+                                if (recyclerView.getAdapter() != null) {
+                                    ((AnimalAdapter) recyclerView.getAdapter()).filter(s);
+                                }
+                                return true;
+                            }
+                        });
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
                     }

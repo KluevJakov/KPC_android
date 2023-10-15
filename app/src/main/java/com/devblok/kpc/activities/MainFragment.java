@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.adapter.AnimalAdapter;
 import com.devblok.kpc.adapter.BookAdapter;
 import com.devblok.kpc.entity.Book;
 import com.devblok.kpc.tools.WebConstants;
@@ -33,6 +35,7 @@ import okhttp3.Response;
 public class MainFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private SearchView searchView;
 
     public MainFragment() {}
 
@@ -64,6 +67,7 @@ public class MainFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        searchView = view.findViewById(R.id.searchView);
 
         try {
             run();
@@ -93,6 +97,24 @@ public class MainFragment extends Fragment {
                         ArrayList<Book> books = gson.fromJson(myResponse, new TypeToken<List<Book>>() {}.getType());
                         BookAdapter bookAdapter = new BookAdapter(books, getContext());
                         recyclerView.setAdapter(bookAdapter);
+
+                        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                            @Override
+                            public boolean onQueryTextSubmit(String s) {
+                                if (recyclerView.getAdapter() != null) {
+                                    ((BookAdapter) recyclerView.getAdapter()).filter(s);
+                                }
+                                return true;
+                            }
+
+                            @Override
+                            public boolean onQueryTextChange(String s) {
+                                if (recyclerView.getAdapter() != null) {
+                                    ((BookAdapter) recyclerView.getAdapter()).filter(s);
+                                }
+                                return true;
+                            }
+                        });
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
                     }

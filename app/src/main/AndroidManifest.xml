@@ -25,7 +25,19 @@
             android:exported="false" />
         <activity
             android:name=".activities.AnimalActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+
+                <data android:host="krc-qr.dev" /> <!-- TODO: заменить на глобальный IP адрес -->
+                <!-- TODO: http://krc-qr.dev/?id=d6c3dab5-94f9-4d86-8cdb-f4260c43c712 для ТЕСТА -->
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.ReadActivity"
             android:exported="false" />
@@ -34,10 +46,12 @@
             android:exported="false" />
         <activity
             android:name=".activities.SplashActivity"
+            android:label="@string/app_name"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

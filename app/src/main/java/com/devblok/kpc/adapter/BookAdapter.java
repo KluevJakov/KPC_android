@@ -15,15 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.activities.ReadActivity;
+import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.entity.Book;
 import com.devblok.kpc.tools.DownloadImageTask;
 import com.devblok.kpc.tools.WebConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     private List<Book> books;
+    private List<Book> itemsCopy = new ArrayList<>();
     private Context context;
 
     @NonNull
@@ -62,6 +65,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public BookAdapter(List<Book> books, Context context) {
         this.books = books;
         this.context = context;
+        itemsCopy.addAll(books);
     }
 
 
@@ -106,6 +110,20 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         public Button getReadBtn() {
             return readBtn;
         }
+    }
+
+    public void filter(String text) {
+        books.clear();
+        if(text.isEmpty()){
+            books.addAll(itemsCopy);
+        } else{
+            for(Book item: itemsCopy){
+                if(item.getTitle().toLowerCase().contains(text.toLowerCase())){
+                    books.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 }

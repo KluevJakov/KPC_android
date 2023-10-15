@@ -86,6 +86,7 @@
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginBottom="40dp"
+        app:backgroundTint="@null"
         android:background="@drawable/button"
         android:fontFamily="@font/noto"
         android:text="@string/login"
