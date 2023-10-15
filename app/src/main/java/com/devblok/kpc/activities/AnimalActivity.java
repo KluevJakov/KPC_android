@@ -107,6 +107,13 @@ public class AnimalActivity extends AppCompatActivity {
             });
 
             Button planInspectBtn = findViewById(R.id.saveBtn4);
+            planInspectBtn.setOnClickListener(view -> {
+                Intent intent = new Intent(getApplicationContext(), InspectActivity.class);
+                Bundle b = new Bundle();
+                b.putString("animalId", (String) bundle.get("id"));
+                intent.putExtras(b);
+                startActivity(intent);
+            });
 
             Button removeBtn = findViewById(R.id.saveBtn5);
             removeBtn.setOnClickListener(view -> {

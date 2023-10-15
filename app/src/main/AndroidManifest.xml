@@ -59,6 +59,7 @@
         <activity android:name=".activities.RegActivity" />
         <activity android:name=".activities.LogActivity" />
         <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.InspectActivity" />
     </application>
 
 </manifest>
