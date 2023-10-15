@@ -181,6 +181,9 @@ public class AnimalEditActivity extends AppCompatActivity {
                 final String myResponse = response.body().string();
                 runOnUiThread(() -> {
                     try {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                        startActivity(intent);
                         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();

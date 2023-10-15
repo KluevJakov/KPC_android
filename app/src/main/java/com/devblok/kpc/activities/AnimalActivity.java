@@ -3,6 +3,7 @@ package com.devblok.kpc.activities;
 import static com.devblok.kpc.tools.WebConstants.SHARED_PREFS;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
@@ -108,11 +110,26 @@ public class AnimalActivity extends AppCompatActivity {
 
             Button removeBtn = findViewById(R.id.saveBtn5);
             removeBtn.setOnClickListener(view -> {
-                try {
-                    run(bundle.getString("id"));
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Подтвердите удаление")
+                        .setMessage("Вы уверены, что хотите удалить данного животного?")
+                        .setPositiveButton("Отмена", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .setNegativeButton("Да, удалить", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    run(bundle.getString("id"));
+                                } catch (Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).create();
+                builder.show();
             });
         }
     }

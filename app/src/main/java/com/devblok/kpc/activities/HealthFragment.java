@@ -89,7 +89,9 @@ public class HealthFragment extends Fragment {
                     try {
                         Gson gson = new Gson();
                         ArrayList<Sick> sicks = gson.fromJson(myResponse, new TypeToken<List<Sick>>() {}.getType());
-                        List<String> sicksStr = sicks.stream().map(e -> e.getName()).collect(Collectors.toList());
+                        List<String> sicksStr = new ArrayList<>();
+                        sicksStr.add("Все болезни");
+                        sicksStr.addAll(sicks.stream().map(e -> e.getName()).collect(Collectors.toList()));
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, sicksStr.toArray(new String[0]));
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner.setAdapter(adapter);
@@ -112,7 +114,9 @@ public class HealthFragment extends Fragment {
                     try {
                         Gson gson = new Gson();
                         ArrayList<Animal> animals = gson.fromJson(myResponse, new TypeToken<List<Animal>>() {}.getType());
-                        List<String> animalsStr = animals.stream().map(e -> e.getNickOrNumber()).collect(Collectors.toList());
+                        List<String> animalsStr = new ArrayList<>();
+                        animalsStr.add("Все животные");
+                        animalsStr.addAll(animals.stream().map(e -> e.getNickOrNumber()).collect(Collectors.toList()));
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, animalsStr.toArray(new String[0]));
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner2.setAdapter(adapter);
