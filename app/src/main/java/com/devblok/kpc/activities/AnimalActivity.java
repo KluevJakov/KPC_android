@@ -131,20 +131,12 @@ public class AnimalActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Подтвердите удаление")
                         .setMessage("Вы уверены, что хотите удалить данного животного?")
-                        .setPositiveButton("Отмена", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        })
-                        .setNegativeButton("Да, удалить", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    run(bundle.getString("id"));
-                                } catch (Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
-                                }
+                        .setPositiveButton("Отмена", (dialogInterface, i) -> dialogInterface.cancel())
+                        .setNegativeButton("Да, удалить", (dialogInterface, i) -> {
+                            try {
+                                run(bundle.getString("id"));
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
                             }
                         }).create();
                 builder.show();

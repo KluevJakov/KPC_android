@@ -1,5 +1,7 @@
 package com.devblok.kpc.activities;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,17 +11,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.entity.Animal;
+import com.devblok.kpc.entity.Disease;
+import com.devblok.kpc.entity.Inspect;
 import com.devblok.kpc.entity.Sick;
+import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.WebConstants;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +41,8 @@ import okhttp3.Response;
 public class CalendarFragment extends Fragment {
 
     Spinner spinner, spinner2;
-
+    CompactCalendarView calendarView;
+    TextView textView19;
     public CalendarFragment() {
     }
 
@@ -47,6 +57,14 @@ public class CalendarFragment extends Fragment {
 
         spinner = view.findViewById(R.id.spinner);
         spinner2 = view.findViewById(R.id.spinner2);
+        calendarView = view.findViewById(R.id.calendarView);
+        textView19 = view.findViewById(R.id.textView19);
+
+        textView19.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            ActivityTools.setupBackLastFragment(intent, R.id.inspect);
+            startActivity(intent);
+        });
 
         try {
             run();
@@ -62,6 +80,8 @@ public class CalendarFragment extends Fragment {
 
         Request request1 = new Request.Builder().url(WebConstants.backendUrl + "/sicks").build();
         Request request2 = new Request.Builder().url(WebConstants.backendUrl + "/animals").build();
+        Request request3 = new Request.Builder().url(WebConstants.backendUrl + "/inspects").build();
+        Request request4 = new Request.Builder().url(WebConstants.backendUrl + "/diseases").build();
 
         client.newCall(request1).enqueue(new Callback() {
             @Override
@@ -107,6 +127,50 @@ public class CalendarFragment extends Fragment {
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, animalsStr.toArray(new String[0]));
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner2.setAdapter(adapter);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        client.newCall(request3).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String myResponse = response.body().string();
+                getActivity().runOnUiThread(() -> {
+                    try {
+                        Gson gson = new Gson();
+                        ArrayList<Inspect> inspects = gson.fromJson(myResponse, new TypeToken<List<Inspect>>() {}.getType());
+                        inspects.stream().forEach(e -> {
+                            calendarView.addEvent(new Event(Color.parseColor("#EACE2E"), e.getPlanDate().getTime(), e.getAnimal().getNickOrNumber()));
+                        });
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        client.newCall(request4).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String myResponse = response.body().string();
+                getActivity().runOnUiThread(() -> {
+                    try {
+                        Gson gson = new Gson();
+                        ArrayList<Disease> diseases = gson.fromJson(myResponse, new TypeToken<List<Disease>>() {}.getType());
+                        diseases.stream().forEach(e -> {
+                            calendarView.addEvent(new Event(Color.parseColor("#DE3319"), e.getDateStart().getTime(), e.getAnimal().getNickOrNumber()));
+                        });
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
                     }

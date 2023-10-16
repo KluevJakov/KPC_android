@@ -41,7 +41,7 @@ public class RegActivity extends AppCompatActivity {
         ActivityTools.fullscreenMode(getWindow());
         setContentView(R.layout.activity_reg);
 
-        ImageView buttonClose = (ImageView) findViewById(R.id.close_btn);
+        ImageView buttonClose = findViewById(R.id.close_btn);
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
             startActivity(intent);
@@ -53,7 +53,7 @@ public class RegActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.editTextTextPassword);
         EditText accept = findViewById(R.id.editTextTextPassword2);
 
-        Button buttonReg = (Button) findViewById(R.id.button);
+        Button buttonReg = findViewById(R.id.button);
         buttonReg.setOnClickListener(view -> {
             if (StringUtils.isEmpty(email.getText().toString()) || StringUtils.isBlank(email.getText().toString())) {
                 email.requestFocus();

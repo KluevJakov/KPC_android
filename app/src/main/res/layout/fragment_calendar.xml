@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#DEF3FF">
 
         <ScrollView
             android:layout_width="0dp"
@@ -41,10 +42,19 @@
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/button" />
 
-                <CalendarView
+                <com.github.sundeepk.compactcalendarview.CompactCalendarView
                     android:id="@+id/calendarView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="250dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    app:compactCalendarBackgroundColor="#FFFFFF"
+                    app:compactCalendarCurrentDayBackgroundColor="#E7AFFF"
+                    app:compactCalendarCurrentSelectedDayBackgroundColor="#DCC3FF"
+                    app:compactCalendarMultiEventIndicatorColor="#202020"
+                    app:compactCalendarTargetHeight="250dp"
+                    app:compactCalendarTextColor="#393939"
+                    app:compactCalendarTextSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

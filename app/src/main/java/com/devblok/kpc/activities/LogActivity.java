@@ -55,13 +55,13 @@ public class LogActivity extends AppCompatActivity {
         EditText emailField = findViewById(R.id.editTextTextEmailAddress2);
         EditText passwordField = findViewById(R.id.editTextTextPassword3);
 
-        ImageView buttonClose = (ImageView) findViewById(R.id.close_btn2);
+        ImageView buttonClose = findViewById(R.id.close_btn2);
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
             startActivity(intent);
         });
 
-        Button button2 = (Button) findViewById(R.id.button2);
+        Button button2 = findViewById(R.id.button2);
         button2.setOnClickListener(view -> {
             if (StringUtils.isEmpty(emailField.getText().toString()) || StringUtils.isBlank(emailField.getText().toString())) {
                 emailField.requestFocus();

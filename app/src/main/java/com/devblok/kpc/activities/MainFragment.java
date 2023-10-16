@@ -48,7 +48,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ImageView buttonHelp = (ImageView) view.findViewById(R.id.imageView4);
+        ImageView buttonHelp = view.findViewById(R.id.imageView4);
         buttonHelp.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
             builder.setTitle("Помощь")
@@ -59,7 +59,7 @@ public class MainFragment extends Fragment {
             alert.show();
         });
 
-        ImageView buttonLk = (ImageView) view.findViewById(R.id.imageView5);
+        ImageView buttonLk = view.findViewById(R.id.imageView5);
         buttonLk.setOnClickListener(v -> {
             Intent intent = new Intent(this.getContext(), ProfileActivity.class);
             startActivity(intent);
