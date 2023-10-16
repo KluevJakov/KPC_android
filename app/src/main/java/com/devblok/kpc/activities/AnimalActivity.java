@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -140,6 +141,28 @@ public class AnimalActivity extends AppCompatActivity {
                             }
                         }).create();
                 builder.show();
+            });
+
+            /* */
+
+            TextView info3 = findViewById(R.id.info3);
+            info3.setOnClickListener(view -> {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                ActivityTools.setupBackLastFragment(intent, R.id.health);
+                Bundle b = new Bundle();
+                b.putString("animalSearchId", (String) bundle.get("id"));
+                intent.putExtras(b);
+                startActivity(intent);
+            });
+
+            TextView info2 = findViewById(R.id.info2);
+            info2.setOnClickListener(view -> {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                ActivityTools.setupBackLastFragment(intent, R.id.inspect);
+                Bundle b = new Bundle();
+                b.putString("animalSearchId", (String) bundle.get("id"));
+                intent.putExtras(b);
+                startActivity(intent);
             });
         }
     }

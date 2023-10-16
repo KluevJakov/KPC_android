@@ -14,16 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.devblok.kpc.R;
 import com.devblok.kpc.activities.AnimalActivity;
 import com.devblok.kpc.activities.SickActivity;
+import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.entity.Disease;
 import com.devblok.kpc.entity.Inspect;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class InspectAdapter extends RecyclerView.Adapter<InspectAdapter.ViewHolder> {
     private List<Inspect> inspects;
+    private List<Inspect> itemsCopy = new ArrayList<>();
     private Context context;
 
     @NonNull
@@ -56,6 +59,7 @@ public class InspectAdapter extends RecyclerView.Adapter<InspectAdapter.ViewHold
     public InspectAdapter(List<Inspect> inspects, Context context) {
         this.inspects = inspects;
         this.context = context;
+        itemsCopy.addAll(inspects);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -102,6 +106,26 @@ public class InspectAdapter extends RecyclerView.Adapter<InspectAdapter.ViewHold
 
     public String getDay(Date date) {
         return new SimpleDateFormat("EEE", new Locale("ru")).format(date).toUpperCase();
+    }
+
+    public void filterByAnimal(String text) {
+        if (text.equals("Все животные")) {
+            inspects.clear();
+            inspects.addAll(itemsCopy);
+            notifyDataSetChanged();
+            return;
+        }
+        inspects.clear();
+        if(text.isEmpty()){
+            inspects.addAll(itemsCopy);
+        } else{
+            for(Inspect item: itemsCopy){
+                if(item.getAnimal().getNickOrNumber().toLowerCase().equals(text.toLowerCase())){
+                    inspects.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 }

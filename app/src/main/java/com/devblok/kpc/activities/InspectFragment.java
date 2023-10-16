@@ -1,25 +1,22 @@
 package com.devblok.kpc.activities;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.devblok.kpc.R;
-import com.devblok.kpc.adapter.DiseaseAdapter;
 import com.devblok.kpc.adapter.InspectAdapter;
 import com.devblok.kpc.entity.Animal;
-import com.devblok.kpc.entity.Disease;
 import com.devblok.kpc.entity.Inspect;
-import com.devblok.kpc.entity.Sick;
 import com.devblok.kpc.tools.WebConstants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +34,7 @@ import okhttp3.Response;
 
 public class InspectFragment extends Fragment {
 
-    Spinner spinner, spinner2;
+    Spinner spinner2;
     RecyclerView recyclerInspects;
 
     public InspectFragment() {
@@ -52,10 +49,22 @@ public class InspectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inspect, container, false);
 
-        spinner = view.findViewById(R.id.spinner);
         spinner2 = view.findViewById(R.id.spinner2);
         recyclerInspects = view.findViewById(R.id.recyclerInspects);
         recyclerInspects.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //животные
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((InspectAdapter) recyclerInspects.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         try {
             run();
@@ -69,36 +78,9 @@ public class InspectFragment extends Fragment {
     protected void run() throws Exception {
         OkHttpClient client = new OkHttpClient();
 
-        Request request1 = new Request.Builder().url(WebConstants.backendUrl + "/sicks").build();
         Request request2 = new Request.Builder().url(WebConstants.backendUrl + "/animals").build();
         Request request3 = new Request.Builder().url(WebConstants.backendUrl + "/inspects").build();
 
-
-        client.newCall(request1).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                call.cancel();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String myResponse = response.body().string();
-                getActivity().runOnUiThread(() -> {
-                    try {
-                        Gson gson = new Gson();
-                        ArrayList<Sick> sicks = gson.fromJson(myResponse, new TypeToken<List<Sick>>() {}.getType());
-                        List<String> sicksStr = new ArrayList<>();
-                        sicksStr.add("Все болезни");
-                        sicksStr.addAll(sicks.stream().map(e -> e.getName()).collect(Collectors.toList()));
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, sicksStr.toArray(new String[0]));
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner.setAdapter(adapter);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
         client.newCall(request2).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
