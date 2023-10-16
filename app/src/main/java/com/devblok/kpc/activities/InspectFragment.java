@@ -3,6 +3,8 @@ package com.devblok.kpc.activities;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.adapter.DiseaseAdapter;
+import com.devblok.kpc.adapter.InspectAdapter;
 import com.devblok.kpc.entity.Animal;
+import com.devblok.kpc.entity.Disease;
+import com.devblok.kpc.entity.Inspect;
 import com.devblok.kpc.entity.Sick;
 import com.devblok.kpc.tools.WebConstants;
 import com.google.gson.Gson;
@@ -32,6 +38,7 @@ import okhttp3.Response;
 public class InspectFragment extends Fragment {
 
     Spinner spinner, spinner2;
+    RecyclerView recyclerInspects;
 
     public InspectFragment() {
     }
@@ -47,6 +54,8 @@ public class InspectFragment extends Fragment {
 
         spinner = view.findViewById(R.id.spinner);
         spinner2 = view.findViewById(R.id.spinner2);
+        recyclerInspects = view.findViewById(R.id.recyclerInspects);
+        recyclerInspects.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         try {
             run();
@@ -62,6 +71,8 @@ public class InspectFragment extends Fragment {
 
         Request request1 = new Request.Builder().url(WebConstants.backendUrl + "/sicks").build();
         Request request2 = new Request.Builder().url(WebConstants.backendUrl + "/animals").build();
+        Request request3 = new Request.Builder().url(WebConstants.backendUrl + "/inspects").build();
+
 
         client.newCall(request1).enqueue(new Callback() {
             @Override
@@ -113,5 +124,27 @@ public class InspectFragment extends Fragment {
                 });
             }
         });
+        client.newCall(request3).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String myResponse = response.body().string();
+                getActivity().runOnUiThread(() -> {
+                    try {
+                        Gson gson = new Gson();
+                        ArrayList<Inspect> inspects = gson.fromJson(myResponse, new TypeToken<List<Inspect>>() {}.getType());
+                        InspectAdapter inspectAdapter = new InspectAdapter(inspects, getContext());
+                        recyclerInspects.setAdapter(inspectAdapter);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
     }
 }

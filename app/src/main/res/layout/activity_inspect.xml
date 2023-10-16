@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/btn_close" />
 
     <TextView
-        android:id="@+id/textView39"
+        android:id="@+id/animalName"
         android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:layout_marginStart="24dp"
@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView39">
+        app:layout_constraintTop_toBottomOf="@+id/animalName">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Вид животного"
+                android:text="Дата планируемого осмотра"
                 android:textColor="@color/label_blue"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,154 +59,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:layout_editor_absoluteY="311dp" />
 
-            <EditText
-                android:id="@+id/typeField"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/button"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="10dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="337dp" />
-
-            <TextView
-                android:id="@+id/textView15"
+            <DatePicker
+                android:id="@+id/plannedDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Пол животного"
-                android:textColor="@color/label_blue"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.325"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
-
-            <EditText
-                android:id="@+id/sexField"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/button"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="10dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="337dp" />
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Возраст животного"
-                android:textColor="@color/label_blue"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.325"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
-
-            <EditText
-                android:id="@+id/ageField"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/button"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="10dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Кличка или номер бирки животного"
-                android:textColor="@color/label_blue"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.325"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
-
-            <EditText
-                android:id="@+id/nameField"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/button"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="10dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Масть или приметы животного"
-                android:textColor="@color/label_blue"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.325"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
-
-            <EditText
-                android:id="@+id/breedField"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/button"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="10dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-            <TextView
-                android:id="@+id/textView18"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Владелец или отделение фермы"
-                android:textColor="@color/label_blue"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.325"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
-
-            <EditText
-                android:id="@+id/ownerField"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/button"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="10dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
             <Button
                 android:id="@+id/saveBtn"

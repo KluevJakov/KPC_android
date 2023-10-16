@@ -27,6 +27,8 @@ import com.devblok.kpc.tools.WebConstants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,7 +65,7 @@ public class AnimalActivity extends AppCompatActivity {
                 try {
                     Uri data = getIntent().getData();
                     UUID uuid = UUID.fromString(data.getQueryParameter("id"));
-                    runIntent(uuid);
+                    runIntent(uuid, this);
                 } catch (Exception e) {
                     Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                     startActivity(intent);
@@ -76,6 +78,15 @@ public class AnimalActivity extends AppCompatActivity {
             }
         } else {
             Bundle bundle = getIntent().getExtras();
+
+            if (StringUtils.isNotEmpty(bundle.getString("animalId"))) {
+                try {
+                    runIntent(UUID.fromString(bundle.getString("animalId")), this);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Произошла ошибка, вы не авторизованы", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
 
             titleText4.setText(bundle.getString("nickOrNumber"));
             new DownloadImageTask(imageView16).execute(WebConstants.backendUrlBase+bundle.getString("avatar"));
@@ -195,7 +206,7 @@ public class AnimalActivity extends AppCompatActivity {
         });
     }
 
-    protected void runIntent(UUID uuid) throws Exception {
+    protected void runIntent(UUID uuid, Context context) throws Exception {
         OkHttpClient client = new OkHttpClient();
 
         Request request1 = new Request.Builder()
@@ -253,14 +264,36 @@ public class AnimalActivity extends AppCompatActivity {
                         });
 
                         Button planInspectBtn = findViewById(R.id.saveBtn4);
+                        planInspectBtn.setOnClickListener(view -> {
+                            Intent intent = new Intent(getApplicationContext(), InspectActivity.class);
+                            Bundle b = new Bundle();
+                            b.putString("animalId", (String) bFromUrl.get("id"));
+                            intent.putExtras(b);
+                            startActivity(intent);
+                        });
 
                         Button removeBtn = findViewById(R.id.saveBtn5);
                         removeBtn.setOnClickListener(view -> {
-                            try {
-                                run(bFromUrl.getString("id"));
-                            } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
-                            }
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Подтвердите удаление")
+                                    .setMessage("Вы уверены, что хотите удалить данного животного?")
+                                    .setPositiveButton("Отмена", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.cancel();
+                                        }
+                                    })
+                                    .setNegativeButton("Да, удалить", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            try {
+                                                run(bFromUrl.getString("id"));
+                                            } catch (Exception e) {
+                                                Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }).create();
+                            builder.show();
                         });
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();

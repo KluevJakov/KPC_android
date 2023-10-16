@@ -200,6 +200,7 @@ public class SickActivity extends AppCompatActivity {
                         temperature.setText(Float.toString(currentDisease.getTemperature()));
                         pulse.setText(Integer.toString(currentDisease.getPulse()));
                         breath.setText(Integer.toString(currentDisease.getBreath()));
+                        commonHealth.setText(currentDisease.getCommonHealth());
                         fatness.setText(currentDisease.getFatness());
                         externalSkinStatus.setText(currentDisease.getExternalSkinStatus());
                         internalShellStatus.setText(currentDisease.getInternalShellStatus());
@@ -212,7 +213,8 @@ public class SickActivity extends AppCompatActivity {
 
                         titleRead2.setText(currentDisease.getAnimal().getNickOrNumber());
 
-                        //sickSpinner.setSelected(); TODO: заинитить
+                        int pos = ((ArrayAdapter<String>) sickSpinner.getAdapter()).getPosition(currentDisease.getSick().getName());
+                        sickSpinner.setSelection(pos);
 
                         currentAnimalUUID = currentDisease.getAnimal().getId();
                         currentAnimal = currentDisease.getAnimal();

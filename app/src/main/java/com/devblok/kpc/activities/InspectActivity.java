@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.entity.Animal;
+import com.devblok.kpc.entity.Inspect;
+import com.devblok.kpc.entity.InspectStatus;
 import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.WebConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.UUID;
 
 import okhttp3.Call;
@@ -30,7 +35,11 @@ import okhttp3.Response;
 
 public class InspectActivity extends AppCompatActivity {
     protected Animal currentAnimal;
+    protected Inspect currentInspect = new Inspect();
     protected UUID currentAnimalUUID;
+    protected TextView animalName;
+    protected DatePicker plannedDate;
+    protected Button save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,9 @@ public class InspectActivity extends AppCompatActivity {
             ActivityTools.setupBackLastFragment(intent, R.id.animals);
             startActivity(intent);
         });
+
+        animalName = findViewById(R.id.animalName);
+        plannedDate = findViewById(R.id.plannedDate);
 
         Button saveBtn = findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(view -> {
@@ -89,6 +101,7 @@ public class InspectActivity extends AppCompatActivity {
                     try {
                         Gson gson = new Gson();
                         currentAnimal = gson.fromJson(myResponse, new TypeToken<Animal>() {}.getType());
+                        animalName.setText(currentAnimal.getNickOrNumber());
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
                     }
@@ -101,11 +114,15 @@ public class InspectActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
 
         ObjectMapper mapper = new ObjectMapper();
-
-        RequestBody formBody = RequestBody.create(MediaType.parse("application/json"), mapper.writeValueAsString(currentAnimal));
+        currentInspect.setInspectStatus(InspectStatus.PLANNED);
+        Calendar cal = Calendar.getInstance();
+        cal.set(plannedDate.getYear(), plannedDate.getMonth(), plannedDate.getDayOfMonth());
+        currentInspect.setPlanDate(cal.getTime());
+        currentInspect.setAnimal(currentAnimal);
+        RequestBody formBody = RequestBody.create(MediaType.parse("application/json"), mapper.writeValueAsString(currentInspect));
 
         Request request1 = new Request.Builder()
-                .url(WebConstants.backendUrl + "/animal")
+                .url(WebConstants.backendUrl + "/inspect")
                 .post(formBody)
                 .build();
 
@@ -121,7 +138,7 @@ public class InspectActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     try {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                        ActivityTools.setupBackLastFragment(intent, R.id.inspect);
                         startActivity(intent);
                         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {

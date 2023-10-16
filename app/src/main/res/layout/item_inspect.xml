@@ -1,0 +1,88 @@
+ <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:gravity="center_vertical">
+
+     <androidx.constraintlayout.widget.ConstraintLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_marginBottom="10dp"
+         android:background="#FFFFFF"
+         android:paddingBottom="5dp">
+
+         <TextView
+             android:id="@+id/animal"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="24dp"
+             android:layout_marginTop="42dp"
+             android:background="@drawable/round_outline"
+             android:text="@string/menu_animals"
+             android:textColor="@color/dark_gray"
+             android:textSize="24sp"
+             app:layout_constraintStart_toEndOf="@+id/date"
+             app:layout_constraintTop_toTopOf="parent" />
+
+         <TextView
+             android:id="@+id/info"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="24dp"
+             android:layout_marginTop="4dp"
+             android:background="@drawable/round_outline"
+             android:text="Перейти к карточке"
+             android:textColor="@color/label_blue"
+             android:textSize="16sp"
+             app:layout_constraintStart_toEndOf="@+id/date"
+             app:layout_constraintTop_toBottomOf="@+id/animal" />
+
+         <ImageView
+             android:id="@+id/imageView10"
+             android:layout_width="22dp"
+             android:layout_height="22dp"
+             android:layout_marginStart="8dp"
+             android:layout_marginTop="4dp"
+             android:src="@drawable/arrow_up"
+             app:layout_constraintStart_toEndOf="@+id/info"
+             app:layout_constraintTop_toBottomOf="@+id/animal" />
+
+         <TextView
+             android:id="@+id/monthYear"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="16dp"
+             android:layout_marginTop="8dp"
+             android:text="@string/sick"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent" />
+
+         <TextView
+             android:id="@+id/date"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="16dp"
+             android:layout_marginTop="4dp"
+             android:text="@string/sick"
+             android:textAlignment="center"
+             android:textSize="34sp"
+             android:textStyle="bold"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/monthYear" />
+
+         <TextView
+             android:id="@+id/day"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="16dp"
+             android:layout_marginTop="4dp"
+             android:text="@string/sick"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/date" />
+
+     </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
