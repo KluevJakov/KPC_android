@@ -122,28 +122,27 @@ public class SickActivity extends AppCompatActivity {
         });
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            try {
-                if (bundle.get("diseaseId") != null) {
-                    currentDiseaseUUID = UUID.fromString((String) bundle.get("diseaseId"));
-                    load();
-                } else {
-                    currentDisease = new Disease();
-                }
-
-                if (bundle.get("animalId") != null) {
-                    currentAnimalUUID = UUID.fromString((String) bundle.get("animalId"));
-                    run();
-                }
-            } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+        try {
+            if (bundle.get("diseaseId") != null) {
+                currentDiseaseUUID = UUID.fromString((String) bundle.get("diseaseId"));
+                load();
+            } else {
+                currentDisease = new Disease();
             }
+
+            if (bundle.get("animalId") != null) {
+                currentAnimalUUID = UUID.fromString((String) bundle.get("animalId"));
+                run();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
         }
     }
 
     protected void run() throws Exception {
         OkHttpClient client = new OkHttpClient();
 
+        Request request2 = new Request.Builder().url(WebConstants.backendUrl + "/sicks").build();
         Request request1 = new Request.Builder()
                 .url(WebConstants.backendUrl + "/animal?animalId=" + currentAnimalUUID.toString())
                 .get()
@@ -163,6 +162,30 @@ public class SickActivity extends AppCompatActivity {
                         currentDisease.setDateStart(new Date());
                         currentAnimal = new Gson().fromJson(myResponse, new TypeToken<Animal>() {}.getType());
                         new DownloadImageTask(imageView).execute(WebConstants.backendUrlBase + currentAnimal.getAvatar());
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        client.newCall(request2).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String myResponse = response.body().string();
+                runOnUiThread(() -> {
+                    try {
+                        Gson gson = new Gson();
+                        ArrayList<Sick> sicks = gson.fromJson(myResponse, new TypeToken<List<Sick>>() {}.getType());
+                        List<String> sicksStr = sicks.stream().map(e -> e.getName()).collect(Collectors.toList());
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, sicksStr.toArray(new String[0]));
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        sickSpinner.setAdapter(adapter);
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
                     }
