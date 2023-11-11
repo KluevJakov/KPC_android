@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import okhttp3.OkHttpClient;
+
 public class ActivityTools {
     public static void fullscreenMode(Window window) {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -16,5 +18,10 @@ public class ActivityTools {
         Bundle bundleBack = new Bundle();
         bundleBack.putInt("lastFragment", menu);
         intent.putExtras(bundleBack);
+    }
+
+    public static void closeAllConnections() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.connectionPool().evictAll();
     }
 }

@@ -13,10 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.activities.AnimalActivity;
-import com.devblok.kpc.activities.SickActivity;
-import com.devblok.kpc.entity.Animal;
-import com.devblok.kpc.entity.Disease;
 import com.devblok.kpc.entity.Inspect;
+import com.devblok.kpc.tools.ActivityTools;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +45,7 @@ public class InspectAdapter extends RecyclerView.Adapter<InspectAdapter.ViewHold
             Bundle b = new Bundle();
             b.putString("animalId", inspects.get(position).getAnimal().getId().toString());
             intent.putExtras(b);
+            ActivityTools.closeAllConnections();
             context.startActivity(intent);
         });
     }

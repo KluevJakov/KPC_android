@@ -112,6 +112,7 @@ public class SickActivity extends AppCompatActivity {
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             ActivityTools.setupBackLastFragment(intent, R.id.health);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
@@ -340,6 +341,7 @@ public class SickActivity extends AppCompatActivity {
                     try {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         ActivityTools.setupBackLastFragment(intent, R.id.health);
+                        ActivityTools.closeAllConnections();
                         startActivity(intent);
                         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
@@ -373,6 +375,7 @@ public class SickActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         ActivityTools.setupBackLastFragment(intent, R.id.health);
+                        ActivityTools.closeAllConnections();
                         startActivity(intent);
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при удалении данных с сервера..", Toast.LENGTH_SHORT).show();

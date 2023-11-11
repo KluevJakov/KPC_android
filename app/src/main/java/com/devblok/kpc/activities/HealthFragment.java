@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
-import com.devblok.kpc.adapter.AnimalAdapter;
 import com.devblok.kpc.adapter.DiseaseAdapter;
 import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.entity.Disease;
@@ -21,9 +20,6 @@ import com.devblok.kpc.entity.Sick;
 import com.devblok.kpc.tools.WebConstants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,7 +58,9 @@ public class HealthFragment extends Fragment {
         try {
             run();
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            }
         }
 
         return view;
@@ -85,6 +83,10 @@ public class HealthFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -96,7 +98,9 @@ public class HealthFragment extends Fragment {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner.setAdapter(adapter);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -110,6 +114,10 @@ public class HealthFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -121,7 +129,9 @@ public class HealthFragment extends Fragment {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner2.setAdapter(adapter);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -135,6 +145,10 @@ public class HealthFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -142,7 +156,9 @@ public class HealthFragment extends Fragment {
                         DiseaseAdapter diseaseAdapter = new DiseaseAdapter(diseases, getContext());
                         recyclerView.setAdapter(diseaseAdapter);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

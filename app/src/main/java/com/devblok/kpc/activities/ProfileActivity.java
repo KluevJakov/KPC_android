@@ -2,29 +2,24 @@ package com.devblok.kpc.activities;
 
 import static com.devblok.kpc.tools.WebConstants.SHARED_PREFS;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.devblok.kpc.R;
-import com.devblok.kpc.adapter.AnimalAdapter;
-import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.entity.User;
 import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.DownloadImageTask;
@@ -34,13 +29,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import okhttp3.Call;
@@ -83,6 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             ActivityTools.setupBackLastFragment(intent, R.id.main);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
@@ -95,6 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
             editor.apply();
 
             Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
@@ -110,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
         Button buttonAddAnimal = findViewById(R.id.button3);
         buttonAddAnimal.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AnimalEditActivity.class);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 

@@ -51,7 +51,9 @@ public class AnimalsFragment extends Fragment {
         try {
             run();
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            }
         }
         return view;
     }
@@ -70,6 +72,10 @@ public class AnimalsFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -95,7 +101,9 @@ public class AnimalsFragment extends Fragment {
                             }
                         });
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

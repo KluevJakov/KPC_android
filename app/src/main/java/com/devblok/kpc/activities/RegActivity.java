@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.entity.User;
-import com.devblok.kpc.entity.dto.AuthResponse;
-import com.devblok.kpc.entity.dto.AuthStatus;
 import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.WebConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,13 +18,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -45,6 +41,7 @@ public class RegActivity extends AppCompatActivity {
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
             startActivity(intent);
+            ActivityTools.closeAllConnections();
         });
 
         User user = new User();
@@ -123,6 +120,7 @@ public class RegActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), "Успешная регистрация! Дождитесь активации профиля", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), LogActivity.class);
+                        ActivityTools.closeAllConnections();
                         startActivity(intent);
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();

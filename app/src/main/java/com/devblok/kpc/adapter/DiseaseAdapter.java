@@ -6,25 +6,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
-import com.devblok.kpc.activities.AnimalActivity;
 import com.devblok.kpc.activities.SickActivity;
-import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.entity.Disease;
-import com.devblok.kpc.tools.DownloadImageTask;
-import com.devblok.kpc.tools.WebConstants;
+import com.devblok.kpc.tools.ActivityTools;
 
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.TextStyle;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -52,6 +44,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.ViewHold
             Bundle b = new Bundle();
             b.putString("diseaseId", diseases.get(position).getId().toString());
             intent.putExtras(b);
+            ActivityTools.closeAllConnections();
             context.startActivity(intent);
         });
     }

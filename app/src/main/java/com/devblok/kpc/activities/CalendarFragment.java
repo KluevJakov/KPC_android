@@ -3,9 +3,6 @@ package com.devblok.kpc.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.entity.Animal;
@@ -28,7 +27,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,13 +61,16 @@ public class CalendarFragment extends Fragment {
         textView19.setOnClickListener(view1 -> {
             Intent intent = new Intent(getContext(), MainActivity.class);
             ActivityTools.setupBackLastFragment(intent, R.id.inspect);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
         try {
             run();
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toast.makeText(getActivity(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            }
         }
 
         return view;
@@ -92,6 +93,10 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -103,7 +108,9 @@ public class CalendarFragment extends Fragment {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner.setAdapter(adapter);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -117,6 +124,10 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -128,7 +139,9 @@ public class CalendarFragment extends Fragment {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner2.setAdapter(adapter);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -142,6 +155,10 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -150,7 +167,9 @@ public class CalendarFragment extends Fragment {
                             calendarView.addEvent(new Event(Color.parseColor("#EACE2E"), e.getPlanDate().getTime(), e.getAnimal().getNickOrNumber()));
                         });
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -164,6 +183,10 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -172,7 +195,9 @@ public class CalendarFragment extends Fragment {
                             calendarView.addEvent(new Event(Color.parseColor("#DE3319"), e.getDateStart().getTime(), e.getAnimal().getNickOrNumber()));
                         });
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

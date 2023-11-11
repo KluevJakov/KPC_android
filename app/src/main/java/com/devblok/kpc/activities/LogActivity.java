@@ -2,7 +2,6 @@ package com.devblok.kpc.activities;
 
 import static com.devblok.kpc.tools.WebConstants.SHARED_PREFS;
 import static com.devblok.kpc.tools.WebConstants.USER_ID_KEY;
-import static java.security.AccessController.getContext;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +12,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
-import com.devblok.kpc.adapter.BookAdapter;
-import com.devblok.kpc.entity.Book;
-import com.devblok.kpc.entity.User;
 import com.devblok.kpc.entity.dto.AuthResponse;
 import com.devblok.kpc.entity.dto.AuthStatus;
 import com.devblok.kpc.tools.ActivityTools;
@@ -31,18 +25,14 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.BufferedSink;
 
 public class LogActivity extends AppCompatActivity {
 
@@ -58,6 +48,7 @@ public class LogActivity extends AppCompatActivity {
         ImageView buttonClose = findViewById(R.id.close_btn2);
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
@@ -130,6 +121,7 @@ public class LogActivity extends AppCompatActivity {
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             ActivityTools.setupBackLastFragment(intent, R.id.main);
+                            ActivityTools.closeAllConnections();
                             startActivity(intent);
                         } else {
                             Toast.makeText(getApplicationContext(), "Неизвестная ошибка, попробуйте позже", Toast.LENGTH_SHORT).show();

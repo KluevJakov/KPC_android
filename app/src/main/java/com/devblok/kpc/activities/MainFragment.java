@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
-import com.devblok.kpc.adapter.AnimalAdapter;
 import com.devblok.kpc.adapter.BookAdapter;
 import com.devblok.kpc.entity.Book;
+import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.WebConstants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -62,6 +62,7 @@ public class MainFragment extends Fragment {
         ImageView buttonLk = view.findViewById(R.id.imageView5);
         buttonLk.setOnClickListener(v -> {
             Intent intent = new Intent(this.getContext(), ProfileActivity.class);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
@@ -72,7 +73,9 @@ public class MainFragment extends Fragment {
         try {
             run();
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            }
         }
         return view;
     }
@@ -91,6 +94,10 @@ public class MainFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if (getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -116,7 +123,9 @@ public class MainFragment extends Fragment {
                             }
                         });
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

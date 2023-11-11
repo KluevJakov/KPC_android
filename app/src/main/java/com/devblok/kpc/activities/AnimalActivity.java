@@ -8,10 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
-import com.devblok.kpc.adapter.AnimalAdapter;
 import com.devblok.kpc.entity.Animal;
-import com.devblok.kpc.entity.User;
 import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.DownloadImageTask;
 import com.devblok.kpc.tools.WebConstants;
@@ -31,9 +27,6 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 import okhttp3.Call;
@@ -66,14 +59,17 @@ public class AnimalActivity extends AppCompatActivity {
                 try {
                     Uri data = getIntent().getData();
                     UUID uuid = UUID.fromString(data.getQueryParameter("id"));
+                    ActivityTools.closeAllConnections();
                     runIntent(uuid, this);
                 } catch (Exception e) {
                     Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                    ActivityTools.closeAllConnections();
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(),"Произошла ошибка, проверьте корректность ссылки", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Произошла ошибка, вы не авторизованы", Toast.LENGTH_SHORT).show();
             }
@@ -82,6 +78,7 @@ public class AnimalActivity extends AppCompatActivity {
 
             if (StringUtils.isNotEmpty(bundle.getString("animalId"))) {
                 try {
+                    ActivityTools.closeAllConnections();
                     runIntent(UUID.fromString(bundle.getString("animalId")), this);
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Произошла ошибка, вы не авторизованы", Toast.LENGTH_SHORT).show();
@@ -97,6 +94,7 @@ public class AnimalActivity extends AppCompatActivity {
             backBtn.setOnClickListener(view -> {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
             });
 
@@ -106,6 +104,7 @@ public class AnimalActivity extends AppCompatActivity {
                 Bundle b = new Bundle();
                 b.putString("id", (String) bundle.get("id"));
                 intent.putExtras(b);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
             });
 
@@ -115,6 +114,7 @@ public class AnimalActivity extends AppCompatActivity {
                 Bundle b = new Bundle();
                 b.putString("animalId", (String) bundle.get("id"));
                 intent.putExtras(b);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
             });
 
@@ -124,6 +124,7 @@ public class AnimalActivity extends AppCompatActivity {
                 Bundle b = new Bundle();
                 b.putString("animalId", (String) bundle.get("id"));
                 intent.putExtras(b);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
             });
 
@@ -152,6 +153,7 @@ public class AnimalActivity extends AppCompatActivity {
                 Bundle b = new Bundle();
                 b.putString("animalSearchId", (String) bundle.get("id"));
                 intent.putExtras(b);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
             });
 
@@ -162,6 +164,7 @@ public class AnimalActivity extends AppCompatActivity {
                 Bundle b = new Bundle();
                 b.putString("animalSearchId", (String) bundle.get("id"));
                 intent.putExtras(b);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
             });
         }
@@ -212,6 +215,7 @@ public class AnimalActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                        ActivityTools.closeAllConnections();
                         startActivity(intent);
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
@@ -257,6 +261,7 @@ public class AnimalActivity extends AppCompatActivity {
                         backBtn.setOnClickListener(view -> {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                            ActivityTools.closeAllConnections();
                             startActivity(intent);
                         });
 
@@ -266,6 +271,7 @@ public class AnimalActivity extends AppCompatActivity {
                             Bundle b = new Bundle();
                             b.putString("id", (String) bFromUrl.get("id"));
                             intent.putExtras(b);
+                            ActivityTools.closeAllConnections();
                             startActivity(intent);
                         });
 
@@ -275,6 +281,7 @@ public class AnimalActivity extends AppCompatActivity {
                             Bundle b = new Bundle();
                             b.putString("animalId", (String) bFromUrl.get("id"));
                             intent.putExtras(b);
+                            ActivityTools.closeAllConnections();
                             startActivity(intent);
                         });
 
@@ -284,6 +291,7 @@ public class AnimalActivity extends AppCompatActivity {
                             Bundle b = new Bundle();
                             b.putString("animalId", (String) bFromUrl.get("id"));
                             intent.putExtras(b);
+                            ActivityTools.closeAllConnections();
                             startActivity(intent);
                         });
 

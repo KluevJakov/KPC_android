@@ -52,6 +52,7 @@ public class InspectActivity extends AppCompatActivity {
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             ActivityTools.setupBackLastFragment(intent, R.id.animals);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
@@ -139,6 +140,7 @@ public class InspectActivity extends AppCompatActivity {
                     try {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         ActivityTools.setupBackLastFragment(intent, R.id.inspect);
+                        ActivityTools.closeAllConnections();
                         startActivity(intent);
                         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {

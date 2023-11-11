@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.activities.ReadActivity;
-import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.entity.Book;
+import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.DownloadImageTask;
 import com.devblok.kpc.tools.WebConstants;
 
@@ -52,6 +52,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                 b.putString("author", books.get(position).getAuthor());
                 b.putString("text", books.get(position).getText());
                 intent.putExtras(b);
+                ActivityTools.closeAllConnections();
                 context.startActivity(intent);
             }
         });

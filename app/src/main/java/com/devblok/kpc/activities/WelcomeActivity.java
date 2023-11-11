@@ -24,12 +24,14 @@ public class WelcomeActivity extends AppCompatActivity {
         Button buttonReg = findViewById(R.id.button);
         buttonReg.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), RegActivity.class);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
         ImageView buttonLog = findViewById(R.id.log_btn);
         buttonLog.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), LogActivity.class);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
     }

@@ -1,13 +1,12 @@
 package com.devblok.kpc.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.tools.ActivityTools;
@@ -32,6 +31,7 @@ public class ReadActivity extends AppCompatActivity {
         backBtn.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             ActivityTools.setupBackLastFragment(intent, R.id.main);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 

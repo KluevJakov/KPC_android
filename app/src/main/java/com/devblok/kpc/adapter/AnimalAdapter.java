@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.devblok.kpc.R;
 import com.devblok.kpc.activities.AnimalActivity;
 import com.devblok.kpc.entity.Animal;
+import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.DownloadImageTask;
 import com.devblok.kpc.tools.WebConstants;
 
@@ -49,6 +50,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             b.putString("avatar", animals.get(position).getAvatar());
             b.putString("id", animals.get(position).getId().toString());
             intent.putExtras(b);
+            ActivityTools.closeAllConnections();
             context.startActivity(intent);
         });
     }

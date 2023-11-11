@@ -1,13 +1,7 @@
 package com.devblok.kpc.activities;
 
-import static com.devblok.kpc.tools.WebConstants.SHARED_PREFS;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,9 +12,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.devblok.kpc.R;
 import com.devblok.kpc.entity.Animal;
-import com.devblok.kpc.entity.User;
 import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.DownloadImageTask;
 import com.devblok.kpc.tools.WebConstants;
@@ -30,7 +25,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.UUID;
 
 import okhttp3.Call;
@@ -74,6 +68,7 @@ public class AnimalEditActivity extends AppCompatActivity {
         buttonClose.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             ActivityTools.setupBackLastFragment(intent, R.id.animals);
+            ActivityTools.closeAllConnections();
             startActivity(intent);
         });
 
@@ -183,6 +178,7 @@ public class AnimalEditActivity extends AppCompatActivity {
                     try {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                        ActivityTools.closeAllConnections();
                         startActivity(intent);
                         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {

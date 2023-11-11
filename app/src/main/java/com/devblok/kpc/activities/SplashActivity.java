@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.devblok.kpc.R;
 import com.devblok.kpc.tools.ActivityTools;
 
-import java.util.UUID;
-
 public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 ActivityTools.setupBackLastFragment(intent, R.id.main);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
@@ -34,6 +33,7 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
+                ActivityTools.closeAllConnections();
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();

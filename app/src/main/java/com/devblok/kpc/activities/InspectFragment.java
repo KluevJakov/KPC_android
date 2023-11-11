@@ -69,7 +69,9 @@ public class InspectFragment extends Fragment {
         try {
             run();
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+            }
         }
 
         return view;
@@ -90,6 +92,10 @@ public class InspectFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -101,7 +107,9 @@ public class InspectFragment extends Fragment {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner2.setAdapter(adapter);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -115,6 +123,10 @@ public class InspectFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String myResponse = response.body().string();
+
+                if(getActivity() == null)
+                    return;
+
                 getActivity().runOnUiThread(() -> {
                     try {
                         Gson gson = new Gson();
@@ -122,7 +134,9 @@ public class InspectFragment extends Fragment {
                         InspectAdapter inspectAdapter = new InspectAdapter(inspects, getContext());
                         recyclerInspects.setAdapter(inspectAdapter);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

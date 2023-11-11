@@ -1,6 +1,5 @@
 package com.devblok.kpc.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -11,6 +10,8 @@ import com.devblok.kpc.R;
 import com.devblok.kpc.tools.ActivityTools;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener  {
 
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.connectionPool().connectionCount();
+        ActivityTools.closeAllConnections();
         if (item.getItemId() == R.id.calendar) {
             getSupportFragmentManager()
                     .beginTransaction()
