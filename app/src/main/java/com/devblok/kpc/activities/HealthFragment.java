@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.adapter.DiseaseAdapter;
+import com.devblok.kpc.adapter.InspectAdapter;
 import com.devblok.kpc.entity.Animal;
 import com.devblok.kpc.entity.Disease;
 import com.devblok.kpc.entity.Sick;
@@ -54,6 +56,36 @@ public class HealthFragment extends Fragment {
         spinner2 = view.findViewById(R.id.spinner2);
         recyclerView = view.findViewById(R.id.recyclerDiseases);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //болезни
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (((DiseaseAdapter) recyclerView.getAdapter()) != null) {
+                    ((DiseaseAdapter) recyclerView.getAdapter()).filterByDisease(adapterView.getSelectedItem().toString(),
+                            spinner2.getSelectedItem().toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //животные
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (((DiseaseAdapter) recyclerView.getAdapter()) != null) {
+                    ((DiseaseAdapter) recyclerView.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString(),
+                            spinner.getSelectedItem().toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         try {
             run();

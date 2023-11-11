@@ -17,6 +17,7 @@ import com.devblok.kpc.entity.Disease;
 import com.devblok.kpc.tools.ActivityTools;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -24,6 +25,7 @@ import java.util.Locale;
 public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.ViewHolder> {
     private List<Disease> diseases;
     private Context context;
+    private List<Disease> itemsCopy = new ArrayList<>();
 
     @NonNull
     @Override
@@ -34,7 +36,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull DiseaseAdapter.ViewHolder holder, int position) {
         holder.getSick().setText(diseases.get(position).getSick().getName().toUpperCase());
-        holder.getMonthYear().setText(getMonth(diseases.get(position).getDateStart()) + " " + (diseases.get(position).getDateStart().getYear()+1900));
+        holder.getMonthYear().setText(getMonth(diseases.get(position).getDateStart()) + " " + (diseases.get(position).getDateStart().getYear() + 1900));
         holder.getDate().setText(String.valueOf(diseases.get(position).getDateStart().getDate()).toUpperCase());
         holder.getDay().setText(getDay(diseases.get(position).getDateStart()).toUpperCase());
         holder.getAnimal().setText(diseases.get(position).getAnimal().getNickOrNumber().toUpperCase());
@@ -57,6 +59,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.ViewHold
     public DiseaseAdapter(List<Disease> diseases, Context context) {
         this.diseases = diseases;
         this.context = context;
+        itemsCopy.addAll(diseases);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -111,4 +114,53 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.ViewHold
         return new SimpleDateFormat("EEE", new Locale("ru")).format(date).toUpperCase();
     }
 
+    public void filterByAnimal(String text, String textDisease) {
+        if (text.equals("Все животные")) {
+            diseases.clear();
+            diseases.addAll(itemsCopy);
+            if (!textDisease.equals("Все болезни")) {
+                filterByDisease(textDisease, text);
+            }
+            notifyDataSetChanged();
+            return;
+        }
+        diseases.clear();
+        if (text.isEmpty()) {
+            diseases.addAll(itemsCopy);
+        } else {
+            for (Disease item : itemsCopy) {
+                if (item.getAnimal().getNickOrNumber().toLowerCase().equals(text.toLowerCase()) &&
+                        (item.getSick().getName().toLowerCase().equals(textDisease.toLowerCase()) ||
+                                textDisease.equals("Все болезни"))) {
+                    diseases.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filterByDisease(String text, String textAnimal) {
+        if (text.equals("Все болезни")) {
+            diseases.clear();
+            diseases.addAll(itemsCopy);
+            if (!textAnimal.equals("Все животные")) {
+                filterByAnimal(textAnimal, text);
+            }
+            notifyDataSetChanged();
+            return;
+        }
+        diseases.clear();
+        if (text.isEmpty()) {
+            diseases.addAll(itemsCopy);
+        } else {
+            for (Disease item : itemsCopy) {
+                if (item.getSick().getName().toLowerCase().equals(text.toLowerCase()) &&
+                        (item.getAnimal().getNickOrNumber().toLowerCase().equals(textAnimal.toLowerCase()) ||
+                                textAnimal.equals("Все животные"))) {
+                    diseases.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
 }
