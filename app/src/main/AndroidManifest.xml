@@ -35,7 +35,7 @@
                 <data android:scheme="https" />
 
                 <data android:host="10.0.2.2:8080" /> <!-- TODO: заменить на глобальный IP адрес -->
-                <!-- TODO: http://krc-qr.dev/?id=d6c3dab5-94f9-4d86-8cdb-f4260c43c712 для ТЕСТА -->
+                <!-- TODO: http://localhost:8080/qr?id=d6c3dab5-94f9-4d86-8cdb-f4260c43c712 для ТЕСТА -->
             </intent-filter>
         </activity>
         <activity

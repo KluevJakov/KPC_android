@@ -30,6 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -282,9 +284,9 @@ public class SickActivity extends AppCompatActivity {
         currentDisease.setFirstDiagnosis(firstDiagnosis.getText().toString());
         currentDisease.setSecondDiagnosis(secondDiagnosis.getText().toString());
         currentDisease.setAnamnesis(anamnesis.getText().toString());
-        currentDisease.setTemperature(Float.parseFloat(temperature.getText().toString()));
-        currentDisease.setPulse(Integer.parseInt(pulse.getText().toString()));
-        currentDisease.setBreath(Integer.parseInt(breath.getText().toString()));
+        currentDisease.setTemperature(NumberUtils.toFloat(temperature.getText().toString(), 0f));
+        currentDisease.setPulse(NumberUtils.toInt(pulse.getText().toString(), 0));
+        currentDisease.setBreath(NumberUtils.toInt(breath.getText().toString(), 0));
         currentDisease.setCommonHealth(commonHealth.getText().toString());
         currentDisease.setFatness(fatness.getText().toString());
         currentDisease.setExternalSkinStatus(externalSkinStatus.getText().toString());
@@ -325,6 +327,9 @@ public class SickActivity extends AppCompatActivity {
                 final String myResponse = response.body().string();
                 runOnUiThread(() -> {
                     try {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        ActivityTools.setupBackLastFragment(intent, R.id.health);
+                        startActivity(intent);
                         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
