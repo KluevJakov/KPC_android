@@ -561,6 +561,23 @@
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <Button
+                android:id="@+id/removeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/button"
+                android:fontFamily="@font/noto"
+                android:text="@string/remove"
+                android:textColor="@color/label_blue"
+                android:textColorHighlight="@color/label_blue"
+                android:textColorLink="@color/label_blue"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toTopOf="@+id/button4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent" />
+
         </LinearLayout>
     </ScrollView>
 

@@ -219,6 +219,13 @@ public class AnimalEditActivity extends AppCompatActivity {
                 final String myResponse = response.body().string();
                 runOnUiThread(() -> {
                     try {
+                        Gson gson = new Gson();
+                        Animal savedAnimal = gson.fromJson(myResponse, new TypeToken<Animal>() {}.getType());
+                        if (currentAnimal.getId() == null || currentAnimalUUID == null) {
+                            currentAnimal.setId(savedAnimal.getId());
+                            currentAnimalUUID = savedAnimal.getId();
+                        }
+
                         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();

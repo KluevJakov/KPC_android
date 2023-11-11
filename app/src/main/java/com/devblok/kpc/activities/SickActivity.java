@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -123,6 +124,15 @@ public class SickActivity extends AppCompatActivity {
             }
         });
 
+        Button removeBtn = findViewById(R.id.removeBtn);
+        removeBtn.setOnClickListener(view -> {
+            try {
+                delete(currentDisease.getId().toString());
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Ошибка при удалении данных с сервера..", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Bundle bundle = getIntent().getExtras();
         try {
             if (bundle.get("diseaseId") != null) {
@@ -130,6 +140,7 @@ public class SickActivity extends AppCompatActivity {
                 load();
             } else {
                 currentDisease = new Disease();
+                removeBtn.setVisibility(View.INVISIBLE);
             }
 
             if (bundle.get("animalId") != null) {
@@ -333,6 +344,38 @@ public class SickActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Ошибка при получении данных с сервера..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    protected void delete(String uuid) throws Exception {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request1 = new Request.Builder()
+                .url(WebConstants.backendUrl + "/disease?diseaseId="+uuid)
+                .delete()
+                .build();
+
+        client.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String myResponse = response.body().string();
+                runOnUiThread(() -> {
+                    try {
+                        Toast.makeText(getApplicationContext(), "Болезнь удалена", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        ActivityTools.setupBackLastFragment(intent, R.id.health);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Ошибка при удалении данных с сервера..", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
