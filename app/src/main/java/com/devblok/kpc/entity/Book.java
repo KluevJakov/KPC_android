@@ -10,7 +10,7 @@ public class Book {
     protected String author;
     protected String publishYear;
     protected String avatar;
-    protected String text;
+    protected String file;
 
     public UUID getId() {
         return id;
@@ -60,12 +60,12 @@ public class Book {
         this.avatar = avatar;
     }
 
-    public String getText() {
-        return text;
+    public String getFile() {
+        return file;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setFile(String file) {
+        this.file = file;
     }
 
     public Book(UUID id, String title, String type, String author, String publishYear, String avatar, String text) {
@@ -75,7 +75,7 @@ public class Book {
         this.author = author;
         this.publishYear = publishYear;
         this.avatar = avatar;
-        this.text = text;
+        this.file = file;
     }
 
     public Book() {

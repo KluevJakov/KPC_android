@@ -50,7 +50,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                 Bundle b = new Bundle();
                 b.putString("title", books.get(position).getTitle());
                 b.putString("author", books.get(position).getAuthor());
-                b.putString("text", books.get(position).getText());
+                b.putString("file", books.get(position).getFile());
                 intent.putExtras(b);
                 ActivityTools.closeAllConnections();
                 context.startActivity(intent);

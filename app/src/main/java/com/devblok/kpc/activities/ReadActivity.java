@@ -1,17 +1,31 @@
 package com.devblok.kpc.activities;
 
+import static com.devblok.kpc.tools.WebConstants.backendUrlBase;
+
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.SeekBar;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
 import com.devblok.kpc.tools.ActivityTools;
+import com.github.barteksc.pdfviewer.PDFView;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ReadActivity extends AppCompatActivity {
+
+    private PDFView pdfView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +34,6 @@ public class ReadActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
 
-        TextView readText = findViewById(R.id.readText);
-        readText.setText(b.getString("text"));
         TextView titleRead = findViewById(R.id.titleRead);
         titleRead.setText(b.getString("title"));
         TextView authorRead = findViewById(R.id.authorRead);
@@ -35,27 +47,63 @@ public class ReadActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        SeekBar fontSizeBar = findViewById(R.id.fontSizeBar);
-        fontSizeBar.setMax(100);
-        fontSizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (i == 0) {
-                    readText.setTextSize(14);
-                } else {
-                    readText.setTextSize(14 + (i * 0.14f));
+        pdfView = findViewById(R.id.pdfView);
+        progressBar = findViewById(R.id.progressBar);
+
+        String pdfUrl = backendUrlBase + b.getString("file");
+        new LoadPdfTask().execute(pdfUrl);
+    }
+
+    private class LoadPdfTask extends AsyncTask<String, Integer, byte[]> {
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(ProgressBar.VISIBLE);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected byte[] doInBackground(String... params) {
+            String pdfUrl = params[0];
+
+            try {
+                URL url = new URL(pdfUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                int fileLength = urlConnection.getContentLength();
+
+                try (InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    int totalBytesRead = 0;
+
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                        totalBytesRead += bytesRead;
+                        publishProgress((int) ((totalBytesRead * 100) / fileLength));
+                    }
+
+                    return outputStream.toByteArray();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            return null;
+        }
 
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(byte[] pdfBytes) {
+            if (pdfBytes != null) {
+                pdfView.fromBytes(pdfBytes).load();
             }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
+        }
     }
 }
