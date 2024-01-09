@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">KPC</string>
+    <string name="app_name">Муммовское</string>
     <string name="label_welcome">Добро пожаловать в\n<b>%s</b></string>
-    <string name="description_welcome">Lorem ipsum dolor sit amet consectetur. Vulputate netus dolor nisl et. Sed porttitor ac nunc tristique auctor mauris eu feugiat. </string>
+        <string name="description_welcome">Отслеживайте здоровье своего стада в реальном времени и получайте важные уведомления. Управление коровами стало проще!  </string>
 
     <string name="reg">Зарегистрироваться</string>
 

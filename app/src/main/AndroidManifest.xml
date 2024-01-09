@@ -12,10 +12,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/logo"
+        android:label="Муммовское"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.KPC"
         tools:targetApi="31">
         <activity
@@ -35,7 +36,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
 
-                <data android:host="10.0.2.2:8080" /> <!-- TODO: заменить на глобальный IP адрес -->
+                <data android:host="http://kpc-app.ru/" /> <!-- TODO: заменить на глобальный IP адрес -->
                 <!-- TODO: http://localhost:8080/qr?id=d6c3dab5-94f9-4d86-8cdb-f4260c43c712 для ТЕСТА -->
             </intent-filter>
         </activity>
@@ -47,7 +48,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.SplashActivity"
-            android:label="@string/app_name"
+            android:label="Муммовское"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:exported="true">
