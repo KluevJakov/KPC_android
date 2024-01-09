@@ -5,8 +5,10 @@ import static com.devblok.kpc.tools.WebConstants.USER_ID_KEY;
 import static com.devblok.kpc.tools.WebConstants.USER_ROLE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         bottomNavigationView = findViewById(R.id.menu);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(lastFragment);
+
     }
 
     @Override
@@ -73,10 +76,16 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     .commit();
             return true;
         } else if (item.getItemId() == R.id.inspect) {
+            Bundle bundle = new Bundle();
+            bundle.putString("animalSearchId", getIntent().getExtras().getString("animalSearchId"));
+            System.out.println(getIntent().getExtras().getString("animalSearchId"));
+            inspectFragment.setArguments(bundle);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.flFragment, inspectFragment)
                     .commit();
+            bundle.remove("animalSearchId");
+            getIntent().removeExtra("animalSearchId");
             return true;
         } else if (item.getItemId() == R.id.animals) {
             getSupportFragmentManager()

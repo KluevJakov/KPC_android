@@ -174,11 +174,10 @@ public class AnimalActivity extends AppCompatActivity {
 
             TextView info3 = findViewById(R.id.info3);
             info3.setOnClickListener(view -> {
-//                String num = bundle.
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 setupBackLastFragment(intent, R.id.health);
                 Bundle b = new Bundle();
-                b.putString("animalSearchId", (String) bundle.get("id"));
+                b.putString("animalSearchId", (String) bundle.get("nickOrNumber"));
                 intent.putExtras(b);
                 ActivityTools.closeAllConnections();
                 startActivity(intent);
@@ -186,13 +185,15 @@ public class AnimalActivity extends AppCompatActivity {
 
             TextView info2 = findViewById(R.id.info2);
             info2.setOnClickListener(view -> {
+                String num = bundle.getString("nickOrNumber");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 setupBackLastFragment(intent, R.id.inspect);
                 Bundle b = new Bundle();
-                b.putString("animalSearchId", (String) bundle.get("id"));
+                b.putString("animalSearchId", (String) bundle.get("nickOrNumber"));
                 intent.putExtras(b);
                 ActivityTools.closeAllConnections();
                 startActivity(intent);
+                b.remove("animalSearchId");
             });
         }
     }

@@ -1,5 +1,7 @@
 package com.devblok.kpc.activities;
 
+import static android.content.Intent.getIntent;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,16 +50,27 @@ public class InspectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inspect, container, false);
-
+        System.out.println(savedInstanceState);
         spinner2 = view.findViewById(R.id.spinner2);
         recyclerInspects = view.findViewById(R.id.recyclerInspects);
         recyclerInspects.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+        Bundle bundle = getArguments();
+        String idCows = bundle.getString("animalSearchId");
+        String selectedAnimal = idCows;
+
+        idCows = null;
+        System.out.println(selectedAnimal);
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //животные
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
-                    ((InspectAdapter) recyclerInspects.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString());
+                    if (selectedAnimal != null) {
+                        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner2.getAdapter(); // Получите адаптер из вашего спиннера
+                        int position = adapter.getPosition(selectedAnimal); // Найдите позицию выбранного животного
+                        spinner2.setSelection(position);
+                    }
+                        ((InspectAdapter) recyclerInspects.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString());
                 } catch (Exception ignored) {}
             }
 
