@@ -56,7 +56,9 @@ public class InspectFragment extends Fragment {
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //животные
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                ((InspectAdapter) recyclerInspects.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString());
+                try {
+                    ((InspectAdapter) recyclerInspects.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString());
+                } catch (Exception ignored) {}
             }
 
             @Override

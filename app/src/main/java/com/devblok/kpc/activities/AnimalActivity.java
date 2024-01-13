@@ -1,5 +1,6 @@
 package com.devblok.kpc.activities;
 
+import static com.devblok.kpc.tools.ActivityTools.setupBackLastFragment;
 import static com.devblok.kpc.tools.WebConstants.SHARED_PREFS;
 
 import android.content.Context;
@@ -81,7 +82,11 @@ public class AnimalActivity extends AppCompatActivity {
                     ActivityTools.closeAllConnections();
                     runIntent(UUID.fromString(bundle.getString("animalId")), this);
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Произошла ошибка, вы не авторизованы", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    setupBackLastFragment(intent, R.id.animals);
+                    ActivityTools.closeAllConnections();
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "Проверьте правильность QR-кода", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -93,7 +98,7 @@ public class AnimalActivity extends AppCompatActivity {
             ImageView backBtn = findViewById(R.id.backBtn4);
             backBtn.setOnClickListener(view -> {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                setupBackLastFragment(intent, R.id.animals);
                 ActivityTools.closeAllConnections();
                 startActivity(intent);
             });
@@ -149,7 +154,7 @@ public class AnimalActivity extends AppCompatActivity {
             TextView info3 = findViewById(R.id.info3);
             info3.setOnClickListener(view -> {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                ActivityTools.setupBackLastFragment(intent, R.id.health);
+                setupBackLastFragment(intent, R.id.health);
                 Bundle b = new Bundle();
                 b.putString("animalSearchId", (String) bundle.get("id"));
                 intent.putExtras(b);
@@ -160,7 +165,7 @@ public class AnimalActivity extends AppCompatActivity {
             TextView info2 = findViewById(R.id.info2);
             info2.setOnClickListener(view -> {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                ActivityTools.setupBackLastFragment(intent, R.id.inspect);
+                setupBackLastFragment(intent, R.id.inspect);
                 Bundle b = new Bundle();
                 b.putString("animalSearchId", (String) bundle.get("id"));
                 intent.putExtras(b);
@@ -214,7 +219,7 @@ public class AnimalActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Животное удалено", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                        setupBackLastFragment(intent, R.id.animals);
                         ActivityTools.closeAllConnections();
                         startActivity(intent);
                     } catch (Exception e) {
@@ -260,7 +265,7 @@ public class AnimalActivity extends AppCompatActivity {
                         ImageView backBtn = findViewById(R.id.backBtn4);
                         backBtn.setOnClickListener(view -> {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            ActivityTools.setupBackLastFragment(intent, R.id.animals);
+                            setupBackLastFragment(intent, R.id.animals);
                             ActivityTools.closeAllConnections();
                             startActivity(intent);
                         });

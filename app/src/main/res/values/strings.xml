@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Муммовское</string>
     <string name="label_welcome">Добро пожаловать в\n<b>%s</b></string>
-        <string name="description_welcome">Отслеживайте здоровье своего стада в реальном времени и получайте важные уведомления. Управление коровами стало проще!  </string>
+    <string name="description_welcome">Отслеживайте здоровье своего стада в реальном времени и получайте важные уведомления. Управление коровами стало проще!  </string>
 
     <string name="reg">Зарегистрироваться</string>
 

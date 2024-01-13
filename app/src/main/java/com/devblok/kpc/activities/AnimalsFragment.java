@@ -1,9 +1,11 @@
 package com.devblok.kpc.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.devblok.kpc.R;
 import com.devblok.kpc.adapter.AnimalAdapter;
 import com.devblok.kpc.entity.Animal;
+import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.WebConstants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +35,7 @@ public class AnimalsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SearchView searchView;
+    private ImageView imageView;
 
     public AnimalsFragment() {
     }
@@ -47,6 +51,13 @@ public class AnimalsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerAnimals);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         searchView = view.findViewById(R.id.searchView);
+        imageView = view.findViewById(R.id.imageView8);
+
+        imageView.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), ScanActivity.class);
+            ActivityTools.closeAllConnections();
+            startActivity(intent);
+        });
 
         try {
             run();
