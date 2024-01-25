@@ -1,5 +1,11 @@
 package com.devblok.kpc.activities;
 
+import static com.devblok.kpc.tools.WebConstants.SHARED_PREFS;
+import static com.devblok.kpc.tools.WebConstants.USER_ID_KEY;
+import static com.devblok.kpc.tools.WebConstants.USER_ROLE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -7,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.entity.User;
 import com.devblok.kpc.tools.ActivityTools;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -27,10 +34,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         ActivityTools.fullscreenMode(getWindow());
         setContentView(R.layout.activity_main);
-
         Bundle bundle = getIntent().getExtras();
         Integer lastFragment = bundle.getInt("lastFragment");
-
+        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String userRoleLocalization = sharedpreferences.getString("USER_ROLE", "");
         bottomNavigationView = findViewById(R.id.menu);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(lastFragment);

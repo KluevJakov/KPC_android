@@ -2,6 +2,7 @@ package com.devblok.kpc.activities;
 
 import static com.devblok.kpc.tools.WebConstants.SHARED_PREFS;
 import static com.devblok.kpc.tools.WebConstants.USER_ID_KEY;
+import static com.devblok.kpc.tools.WebConstants.USER_ROLE;
 
 import android.content.Context;
 import android.content.Intent;
@@ -117,6 +118,7 @@ public class LogActivity extends AppCompatActivity {
                             SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedpreferences.edit();
                             editor.putString(USER_ID_KEY, authResponse.getUser().getId().toString());
+                            editor.putString("USER_ROLE", authResponse.getUser().getRole().getNameLocalization());
                             editor.apply();
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
-            }, 1000); //TODO: поставить пару секунд
+            }, 3000); //TODO: поставить пару секунд
         } else {
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
-            }, 1000); //TODO: поставить пару секунд
+            }, 3000); //TODO: поставить пару секунд
         }
     }
 }

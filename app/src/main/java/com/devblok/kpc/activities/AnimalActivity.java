@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,12 +51,12 @@ public class AnimalActivity extends AppCompatActivity {
         TextView titleText4 = findViewById(R.id.titleRead4);
         ImageView imageView16 = findViewById(R.id.imageView16);
         TextView textView21 = findViewById(R.id.textView21);
-
+        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String userRoleLocalization = sharedpreferences.getString("USER_ROLE", "");
         /*
             From bundle
          */
         if (getIntent().getData() != null) {
-            SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
             if (sharedpreferences.getString("USER_ID_KEY", null) != null) {
                 try {
                     Uri data = getIntent().getData();
@@ -104,6 +105,11 @@ public class AnimalActivity extends AppCompatActivity {
             });
 
             Button editBtn = findViewById(R.id.saveBtn2);
+            if (userRoleLocalization.equals("Администратор")) {
+                editBtn.setVisibility(View.VISIBLE);
+            } else {
+                editBtn.setVisibility(View.GONE);
+            }
             editBtn.setOnClickListener(view -> {
                 Intent intent = new Intent(getApplicationContext(), AnimalEditActivity.class);
                 Bundle b = new Bundle();
@@ -114,6 +120,11 @@ public class AnimalActivity extends AppCompatActivity {
             });
 
             Button addSickBtn = findViewById(R.id.saveBtn3);
+            if (userRoleLocalization.equals("Администратор")) {
+                addSickBtn.setVisibility(View.VISIBLE);
+            } else {
+                addSickBtn.setVisibility(View.GONE);
+            }
             addSickBtn.setOnClickListener(view -> {
                 Intent intent = new Intent(getApplicationContext(), SickActivity.class);
                 Bundle b = new Bundle();
@@ -124,6 +135,11 @@ public class AnimalActivity extends AppCompatActivity {
             });
 
             Button planInspectBtn = findViewById(R.id.saveBtn4);
+            if (userRoleLocalization.equals("Администратор")) {
+                planInspectBtn.setVisibility(View.VISIBLE);
+            } else {
+                planInspectBtn.setVisibility(View.GONE);
+            }
             planInspectBtn.setOnClickListener(view -> {
                 Intent intent = new Intent(getApplicationContext(), InspectActivity.class);
                 Bundle b = new Bundle();
@@ -134,6 +150,11 @@ public class AnimalActivity extends AppCompatActivity {
             });
 
             Button removeBtn = findViewById(R.id.saveBtn5);
+            if (userRoleLocalization.equals("Администратор")) {
+                removeBtn.setVisibility(View.VISIBLE);
+            } else {
+                removeBtn.setVisibility(View.GONE);
+            }
             removeBtn.setOnClickListener(view -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Подтвердите удаление")
@@ -153,6 +174,7 @@ public class AnimalActivity extends AppCompatActivity {
 
             TextView info3 = findViewById(R.id.info3);
             info3.setOnClickListener(view -> {
+//                String num = bundle.
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 setupBackLastFragment(intent, R.id.health);
                 Bundle b = new Bundle();
@@ -232,7 +254,8 @@ public class AnimalActivity extends AppCompatActivity {
 
     protected void runIntent(UUID uuid, Context context) throws Exception {
         OkHttpClient client = new OkHttpClient();
-
+        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String userRoleLocalization = sharedpreferences.getString("USER_ROLE", "");
         Request request1 = new Request.Builder()
                 .url(WebConstants.backendUrl + "/animal?animalId="+uuid).get().build();
 
@@ -271,6 +294,12 @@ public class AnimalActivity extends AppCompatActivity {
                         });
 
                         Button editBtn = findViewById(R.id.saveBtn2);
+                        if (userRoleLocalization.equals("Администратор")) {
+                            System.out.println(userRoleLocalization);
+                            editBtn.setVisibility(View.VISIBLE);
+                        } else {
+                            editBtn.setVisibility(View.GONE);
+                        }
                         editBtn.setOnClickListener(view -> {
                             Intent intent = new Intent(getApplicationContext(), AnimalEditActivity.class);
                             Bundle b = new Bundle();
@@ -281,6 +310,12 @@ public class AnimalActivity extends AppCompatActivity {
                         });
 
                         Button addSickBtn = findViewById(R.id.saveBtn3);
+                        if (userRoleLocalization.equals("Администратор")) {
+                            System.out.println(userRoleLocalization);
+                            addSickBtn.setVisibility(View.VISIBLE);
+                        } else {
+                            addSickBtn.setVisibility(View.GONE);
+                        }
                         addSickBtn.setOnClickListener(view -> {
                             Intent intent = new Intent(getApplicationContext(), SickActivity.class);
                             Bundle b = new Bundle();
@@ -291,6 +326,12 @@ public class AnimalActivity extends AppCompatActivity {
                         });
 
                         Button planInspectBtn = findViewById(R.id.saveBtn4);
+                        if (userRoleLocalization.equals("Администратор")) {
+                            System.out.println(userRoleLocalization);
+                            planInspectBtn.setVisibility(View.VISIBLE);
+                        } else {
+                            planInspectBtn.setVisibility(View.GONE);
+                        }
                         planInspectBtn.setOnClickListener(view -> {
                             Intent intent = new Intent(getApplicationContext(), InspectActivity.class);
                             Bundle b = new Bundle();
@@ -301,6 +342,11 @@ public class AnimalActivity extends AppCompatActivity {
                         });
 
                         Button removeBtn = findViewById(R.id.saveBtn5);
+                        if (userRoleLocalization.equals("Администратор")) {
+                            removeBtn.setVisibility(View.VISIBLE);
+                        } else {
+                            removeBtn.setVisibility(View.GONE);
+                        }
                         removeBtn.setOnClickListener(view -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
                             builder.setTitle("Подтвердите удаление")
