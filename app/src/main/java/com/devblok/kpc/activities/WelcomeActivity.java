@@ -28,11 +28,19 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView buttonLog = findViewById(R.id.log_btn);
-        buttonLog.setOnClickListener(view -> {
+        Button button_log = findViewById(R.id.button_log);
+        button_log.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), LogActivity.class);
             ActivityTools.closeAllConnections();
             startActivity(intent);
         });
+
+
+//        ImageView buttonLog = findViewById(R.id.log_btn);
+//        buttonLog.setOnClickListener(view -> {
+//            Intent intent = new Intent(getApplicationContext(), LogActivity.class);
+//            ActivityTools.closeAllConnections();
+//            startActivity(intent);
+//        });
     }
 }

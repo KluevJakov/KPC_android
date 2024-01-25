@@ -107,6 +107,8 @@ public class SickActivity extends AppCompatActivity {
         urogenitalSystemResearch = findViewById(R.id.urogenitalSystemResearch);
         sickSpinner = findViewById(R.id.sickSpinner);
         titleRead2 = findViewById(R.id.titleRead2);
+        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String userRoleLocalization = sharedpreferences.getString("USER_ROLE", "");
 
         ImageView buttonClose = findViewById(R.id.backBtn2);
         buttonClose.setOnClickListener(view -> {
@@ -117,6 +119,11 @@ public class SickActivity extends AppCompatActivity {
         });
 
         Button saveBtn = findViewById(R.id.saveBtn);
+        if (userRoleLocalization.equals("Администратор")) {
+            saveBtn.setVisibility(View.VISIBLE);
+        } else {
+            saveBtn.setVisibility(View.GONE);
+        }
         saveBtn.setOnClickListener(view -> {
             try {
                 save();
@@ -126,6 +133,11 @@ public class SickActivity extends AppCompatActivity {
         });
 
         Button removeBtn = findViewById(R.id.removeBtn);
+        if (userRoleLocalization.equals("Администратор")) {
+            removeBtn.setVisibility(View.VISIBLE);
+        } else {
+            removeBtn.setVisibility(View.GONE);
+        }
         removeBtn.setOnClickListener(view -> {
             try {
                 delete(currentDisease.getId().toString());

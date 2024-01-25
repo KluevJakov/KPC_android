@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devblok.kpc.R;
+import com.devblok.kpc.entity.Role;
 import com.devblok.kpc.entity.User;
 import com.devblok.kpc.tools.ActivityTools;
 import com.devblok.kpc.tools.DownloadImageTask;
@@ -31,6 +33,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.UUID;
 
 import okhttp3.Call;
@@ -54,6 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected User currentUser;
     int SELECT_PICTURE = 200;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +70,8 @@ public class ProfileActivity extends AppCompatActivity {
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
         imageView6 = findViewById(R.id.imageView6);
+        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String userRoleLocalization = sharedpreferences.getString("USER_ROLE", "");
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -80,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
         Button buttonDeauth = findViewById(R.id.button4);
         buttonDeauth.setOnClickListener(view -> {
 
-            SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.clear();
             editor.apply();
@@ -100,6 +106,12 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         Button buttonAddAnimal = findViewById(R.id.button3);
+        if (userRoleLocalization.equals("Администратор")) {
+            System.out.println(userRoleLocalization);
+            buttonAddAnimal.setVisibility(View.VISIBLE);
+        } else {
+            buttonAddAnimal.setVisibility(View.GONE);
+        }
         buttonAddAnimal.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AnimalEditActivity.class);
             ActivityTools.closeAllConnections();

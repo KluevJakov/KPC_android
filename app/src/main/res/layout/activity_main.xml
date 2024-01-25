@@ -13,14 +13,14 @@
         android:layout_height="75dp"
         android:background="#D8ECFF"
         app:backgroundTint="@color/transparent"
-        app:itemIconSize="55dp"
         app:itemBackground="@color/transparent"
-        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="20dp"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu"
-        />
+        app:menu="@menu/bottom_nav_menu" />
 
     <FrameLayout
         android:id="@+id/flFragment"
