@@ -59,19 +59,19 @@ public class InspectFragment extends Fragment {
         String idCows = bundle.getString("animalSearchId");
         String selectedAnimal = idCows;
 
-        idCows = null;
         System.out.println(selectedAnimal);
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //животные
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
                     if (selectedAnimal != null) {
-                        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner2.getAdapter(); // Получите адаптер из вашего спиннера
-                        int position = adapter.getPosition(selectedAnimal); // Найдите позицию выбранного животного
+                        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner2.getAdapter();
+                        int position = adapter.getPosition(selectedAnimal);
                         spinner2.setSelection(position);
                     }
                         ((InspectAdapter) recyclerInspects.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString());
                 } catch (Exception ignored) {}
+                bundle.remove("animalSearchId");
             }
 
             @Override

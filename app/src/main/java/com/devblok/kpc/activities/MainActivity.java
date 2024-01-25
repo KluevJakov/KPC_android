@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
 
@@ -84,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     .beginTransaction()
                     .replace(R.id.flFragment, inspectFragment)
                     .commit();
-            bundle.remove("animalSearchId");
-            getIntent().removeExtra("animalSearchId");
+            new Handler().postDelayed(() -> {
+                bundle.remove("animalSearchId");
+                getIntent().removeExtra("animalSearchId");
+            }, 500);
             return true;
         } else if (item.getItemId() == R.id.animals) {
             getSupportFragmentManager()
