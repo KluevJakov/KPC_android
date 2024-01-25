@@ -77,18 +77,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     .commit();
             return true;
         } else if (item.getItemId() == R.id.inspect) {
-            Bundle bundle = new Bundle();
-            bundle.putString("animalSearchId", getIntent().getExtras().getString("animalSearchId"));
-            System.out.println(getIntent().getExtras().getString("animalSearchId"));
-            inspectFragment.setArguments(bundle);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.flFragment, inspectFragment)
                     .commit();
-            new Handler().postDelayed(() -> {
-                bundle.remove("animalSearchId");
-                getIntent().removeExtra("animalSearchId");
-            }, 500);
             return true;
         } else if (item.getItemId() == R.id.animals) {
             getSupportFragmentManager()

@@ -55,23 +55,27 @@ public class InspectFragment extends Fragment {
         recyclerInspects = view.findViewById(R.id.recyclerInspects);
         recyclerInspects.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        Bundle bundle = getArguments();
-        String idCows = bundle.getString("animalSearchId");
-        String selectedAnimal = idCows;
+        String selectedAnimal = null;
+        if (getActivity() != null
+                && getActivity().getIntent() != null
+                && getActivity().getIntent().getExtras() != null
+                && (String) getActivity().getIntent().getExtras().get("animalSearchId") != null) {
+            selectedAnimal = (String) getActivity().getIntent().getExtras().get("animalSearchId");
+            getActivity().getIntent().removeExtra("animalSearchId");
+        }
 
-        System.out.println(selectedAnimal);
+        String finalSelectedAnimal = selectedAnimal;
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //животные
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
-                    if (selectedAnimal != null) {
+                    if (finalSelectedAnimal != null) {
                         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner2.getAdapter();
-                        int position = adapter.getPosition(selectedAnimal);
+                        int position = adapter.getPosition(finalSelectedAnimal);
                         spinner2.setSelection(position);
                     }
-                        ((InspectAdapter) recyclerInspects.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString());
+                    ((InspectAdapter) recyclerInspects.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString());
                 } catch (Exception ignored) {}
-                bundle.remove("animalSearchId");
             }
 
             @Override

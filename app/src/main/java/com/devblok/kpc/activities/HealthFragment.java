@@ -60,7 +60,7 @@ public class HealthFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //болезни
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (((DiseaseAdapter) recyclerView.getAdapter()) != null) {
+                if (((DiseaseAdapter) recyclerView.getAdapter()) != null && spinner2.getSelectedItem() != null) {
                     ((DiseaseAdapter) recyclerView.getAdapter()).filterByDisease(adapterView.getSelectedItem().toString(),
                             spinner2.getSelectedItem().toString());
                 }
@@ -72,13 +72,30 @@ public class HealthFragment extends Fragment {
             }
         });
 
+        String selectedAnimal = null;
+        if (getActivity() != null
+                && getActivity().getIntent() != null
+                && getActivity().getIntent().getExtras() != null
+                && (String) getActivity().getIntent().getExtras().get("animalSearchId") != null) {
+            selectedAnimal = (String) getActivity().getIntent().getExtras().get("animalSearchId");
+            getActivity().getIntent().removeExtra("animalSearchId");
+        }
+
+        String finalSelectedAnimal = selectedAnimal;
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //животные
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (((DiseaseAdapter) recyclerView.getAdapter()) != null) {
-                    ((DiseaseAdapter) recyclerView.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString(),
-                            spinner.getSelectedItem().toString());
-                }
+                try {
+                    if (finalSelectedAnimal != null) {
+                        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner2.getAdapter();
+                        int position = adapter.getPosition(finalSelectedAnimal);
+                        spinner2.setSelection(position);
+                    }
+                    if (((DiseaseAdapter) recyclerView.getAdapter()) != null && spinner.getSelectedItem() != null) {
+                        ((DiseaseAdapter) recyclerView.getAdapter()).filterByAnimal(adapterView.getSelectedItem().toString(),
+                                spinner.getSelectedItem().toString());
+                    }
+                } catch (Exception ignored) {}
             }
 
             @Override
